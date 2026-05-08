@@ -518,18 +518,40 @@ function selInst(val) {
     document.getElementById('ibtn-' + id).classList.toggle('active', id === val);
   });
 }
-function submitForm() {
+async function submitForm() {
   const name = document.getElementById('f-name').value.trim();
   const email = document.getElementById('f-email').value.trim();
   const phone = document.getElementById('f-phone').value.trim();
   const country = document.getElementById('f-country').value;
   const inst = document.getElementById('inst-val').value;
   if (!name || !email || !phone || !country) { alert('Vui lòng điền đầy đủ thông tin!'); return; }
-  document.getElementById('form-success').style.display = 'block';
   const instName = inst === 'guitar' ? 'Guitar' : inst === 'piano' ? 'Piano' : 'Guitar & Piano';
-  const subject = encodeURIComponent('Đăng ký học thử ' + instName + ' - ' + name);
-  const body = encodeURIComponent('Họ tên: ' + name + '\nEmail: ' + email + '\nĐiện thoại: ' + phone + '\nQuốc gia: ' + country + '\nMôn học: ' + instName + '\nGhi chú: Đăng ký học thử 1 buổi miễn phí');
-  setTimeout(() => { window.location.href = 'mailto:truongthanhtamvinici@gmail.com?subject=' + subject + '&body=' + body; }, 800);
+  const btn = document.querySelector('.form-submit');
+  btn.textContent = 'Đang gửi...';
+  btn.disabled = true;
+  try {
+    const res = await fetch('https://formspree.io/f/mqendonr', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ name, email, phone, country, instrument: instName, message: 'Đăng ký học thử 1 buổi miễn phí' })
+    });
+    if (res.ok) {
+      document.getElementById('form-success').style.display = 'block';
+      btn.textContent = '✅ Đã gửi thành công!';
+      document.getElementById('f-name').value = '';
+      document.getElementById('f-email').value = '';
+      document.getElementById('f-phone').value = '';
+      document.getElementById('f-country').value = '';
+    } else {
+      alert('Có lỗi xảy ra, vui lòng thử lại hoặc nhắn Zalo cho em Tâm!');
+      btn.textContent = 'Đăng ký học thử miễn phí →';
+      btn.disabled = false;
+    }
+  } catch(e) {
+    alert('Có lỗi xảy ra, vui lòng nhắn Zalo cho em Tâm!');
+    btn.textContent = 'Đăng ký học thử miễn phí →';
+    btn.disabled = false;
+  }
 }
 </script>
 </body>
