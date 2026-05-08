@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Piano + Guitar Đệm Hát — Học 1 Kèm 1 Online</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #F5F0E8;
+    --dark: #1A1208;
+    --gold: #C8942A;
+    --gold-light: #E8B84B;
+    --warm-gray: #8A7F6E;
+    --border: rgba(200,148,42,0.25);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 18px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(245,240,232,0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--dark); }
+  .nav-logo span { color: var(--gold); font-style: italic; }
+  .nav-cta { background: var(--dark); color: var(--cream); padding: 10px 22px; border-radius: 2px; font-size: 13px; font-weight: 500; text-decoration: none; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--gold); color: var(--dark); }
+
+  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
+  .hero-left { padding: 140px 64px 80px; display: flex; flex-direction: column; justify-content: center; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--gold); color: var(--dark); font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 14px; border-radius: 2px; margin-bottom: 28px; width: fit-content; }
+  h1 { font-family: 'Playfair Display', serif; font-size: clamp(44px, 5.5vw, 72px); font-weight: 900; line-height: 1.0; letter-spacing: -2px; margin-bottom: 24px; }
+  h1 em { font-style: italic; color: var(--gold); display: block; }
+  .hero-sub { font-size: 16px; color: var(--warm-gray); line-height: 1.7; max-width: 420px; margin-bottom: 16px; }
+  .hero-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 36px; }
+  .hero-tag { font-size: 12px; padding: 5px 12px; border: 1px solid var(--border); border-radius: 20px; color: var(--warm-gray); }
+  .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .btn-primary { background: var(--dark); color: var(--cream); padding: 15px 32px; border-radius: 2px; font-size: 15px; font-weight: 500; text-decoration: none; display: inline-block; transition: all 0.2s; }
+  .btn-primary:hover { background: var(--gold); color: var(--dark); }
+  .btn-trial { background: var(--gold); color: var(--dark); padding: 15px 32px; border-radius: 2px; font-size: 15px; font-weight: 500; text-decoration: none; display: inline-block; transition: all 0.2s; }
+  .btn-trial:hover { background: var(--gold-light); }
+  .hero-note { font-size: 13px; color: var(--warm-gray); }
+  .hero-right { background: var(--dark); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .hero-bg-text { font-family: 'Playfair Display', serif; font-size: 260px; font-weight: 900; font-style: italic; color: rgba(200,148,42,0.07); user-select: none; position: absolute; transform: rotate(-15deg); }
+  .hero-card { position: relative; z-index: 2; background: rgba(200,148,42,0.1); border: 1px solid rgba(200,148,42,0.3); border-radius: 4px; padding: 40px; text-align: center; color: var(--cream); max-width: 320px; }
+  .hero-card-icon { font-size: 60px; margin-bottom: 16px; }
+  .hero-card h3 { font-family: 'Playfair Display', serif; font-size: 24px; margin-bottom: 10px; color: var(--gold-light); line-height: 1.3; }
+  .hero-card p { font-size: 13px; color: rgba(245,240,232,0.55); line-height: 1.6; }
+  .stats-row { display: flex; gap: 0; margin-top: 28px; }
+  .stat { flex: 1; text-align: center; padding: 0 8px; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; color: var(--gold); display: block; }
+  .stat-label { font-size: 10px; color: rgba(245,240,232,0.4); letter-spacing: 1px; text-transform: uppercase; }
+  .stat-div { width: 1px; background: rgba(200,148,42,0.3); margin: 8px 0; }
+
+  section { padding: 96px 64px; }
+  .section-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 3.5vw, 48px); font-weight: 700; line-height: 1.1; letter-spacing: -1px; margin-bottom: 18px; }
+  .section-desc { font-size: 16px; color: var(--warm-gray); line-height: 1.7; max-width: 520px; }
+
+  /* TRIAL BANNER */
+  .trial-banner {
+    background: var(--dark); color: var(--cream);
+    padding: 48px 64px;
+    display: flex; align-items: center; justify-content: space-between; gap: 40px;
+    flex-wrap: wrap;
+  }
+  .trial-left h2 { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+  .trial-left h2 span { color: var(--gold); font-style: italic; }
+  .trial-left p { font-size: 15px; color: rgba(245,240,232,0.55); line-height: 1.6; max-width: 500px; }
+  .trial-right { flex-shrink: 0; }
+  .btn-trial-big { background: var(--gold); color: var(--dark); padding: 18px 40px; border-radius: 2px; font-size: 16px; font-weight: 500; text-decoration: none; display: inline-block; transition: all 0.2s; white-space: nowrap; }
+  .btn-trial-big:hover { background: var(--gold-light); }
+
+  /* WHY */
+  .why-section { background: var(--cream); }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; max-width: 1200px; margin: 0 auto; }
+  .why-list { margin-top: 48px; }
+  .why-item { display: flex; gap: 20px; padding: 22px 0; border-bottom: 1px solid var(--border); }
+  .why-item:first-child { border-top: 1px solid var(--border); }
+  .why-num { font-family: 'Playfair Display', serif; font-size: 13px; color: var(--gold); font-weight: 700; min-width: 28px; padding-top: 2px; }
+  .why-text h4 { font-size: 15px; font-weight: 500; margin-bottom: 5px; }
+  .why-text p { font-size: 14px; color: var(--warm-gray); line-height: 1.6; }
+  .why-visual { position: sticky; top: 100px; background: var(--dark); border-radius: 4px; padding: 40px; color: var(--cream); }
+  .why-visual-title { font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic; color: var(--gold-light); margin-bottom: 20px; }
+  .inst-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .inst-box { background: rgba(200,148,42,0.1); border: 1px solid rgba(200,148,42,0.25); border-radius: 4px; padding: 18px 12px; text-align: center; }
+  .inst-icon { font-size: 28px; margin-bottom: 8px; }
+  .inst-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--gold); display: block; margin-bottom: 4px; }
+  .inst-desc { font-size: 11px; color: rgba(245,240,232,0.45); line-height: 1.5; }
+  .why-caption { font-size: 12px; color: rgba(245,240,232,0.4); line-height: 1.6; }
+
+  /* PACKAGES */
+  .packages-section { background: var(--cream); text-align: center; }
+  .packages-header { max-width: 640px; margin: 0 auto 40px; }
+  .pkg-tabs { display: flex; gap: 10px; justify-content: center; margin-bottom: 40px; }
+  .pkg-tab { padding: 12px 36px; border-radius: 2px; border: 2px solid var(--dark); font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+  .pkg-tab.active { background: var(--dark); color: var(--cream); }
+  .pkg-tab:not(.active) { background: transparent; color: var(--dark); }
+  .pkg-tab:not(.active):hover { background: var(--dark); color: var(--cream); }
+  .pkg-panel { display: none; }
+  .pkg-panel.active { display: block; }
+  .packages-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 860px; margin: 0 auto; }
+  .package-card { border: 1px solid var(--border); border-radius: 4px; padding: 44px 36px; text-align: left; position: relative; background: white; transition: transform 0.2s, box-shadow 0.2s; }
+  .package-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(26,18,8,0.1); }
+  .package-card.featured { background: var(--dark); color: var(--cream); border-color: var(--gold); }
+  .featured-tag { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--gold); color: var(--dark); font-size: 11px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; padding: 4px 16px; border-radius: 2px; white-space: nowrap; }
+  .pkg-sessions { font-family: 'Playfair Display', serif; font-size: 13px; font-style: italic; color: var(--gold); margin-bottom: 12px; }
+  .pkg-name { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; margin-bottom: 16px; }
+  .package-card.featured .pkg-name { color: var(--cream); }
+  .pkg-price { margin-bottom: 20px; }
+  .pkg-price-main { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; color: var(--gold); }
+  .pkg-price-sub { font-size: 13px; color: var(--warm-gray); margin-top: 2px; }
+  .package-card.featured .pkg-price-sub { color: rgba(245,240,232,0.45); }
+  .pkg-desc { font-size: 14px; color: var(--warm-gray); line-height: 1.6; margin-bottom: 24px; }
+  .package-card.featured .pkg-desc { color: rgba(245,240,232,0.55); }
+  .pkg-features { list-style: none; margin-bottom: 32px; }
+  .pkg-features li { font-size: 14px; padding: 9px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  .package-card.featured .pkg-features li { border-color: rgba(200,148,42,0.2); }
+  .pkg-features li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+  .pkg-cta { display: block; text-align: center; padding: 14px; border: 1.5px solid var(--dark); border-radius: 2px; font-size: 14px; font-weight: 500; text-decoration: none; color: var(--dark); transition: all 0.2s; }
+  .pkg-cta:hover { background: var(--dark); color: var(--cream); }
+  .package-card.featured .pkg-cta { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+  .package-card.featured .pkg-cta:hover { background: var(--gold-light); }
+
+  /* TESTIMONIALS */
+  .testimonials-section { background: var(--dark); color: var(--cream); padding: 96px 64px; }
+  .testimonials-inner { max-width: 1200px; margin: 0 auto; }
+  .testimonials-header { margin-bottom: 48px; }
+  .testimonials-header .section-title { color: var(--cream); }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .testimonial-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 28px; position: relative; }
+  .testimonial-card::before { content: '"'; font-family: 'Playfair Display', serif; font-size: 72px; font-style: italic; color: rgba(200,148,42,0.2); position: absolute; top: 8px; left: 20px; line-height: 1; }
+  .testimonial-text { font-size: 14px; line-height: 1.7; color: rgba(245,240,232,0.7); margin-bottom: 20px; padding-top: 20px; }
+  .testimonial-author { display: flex; align-items: center; gap: 10px; }
+  .author-avatar { width: 38px; height: 38px; border-radius: 50%; background: rgba(200,148,42,0.2); border: 1px solid rgba(200,148,42,0.3); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .author-name { font-size: 13px; font-weight: 500; color: var(--cream); }
+  .author-detail { font-size: 11px; color: rgba(245,240,232,0.35); }
+  .stars { color: var(--gold); font-size: 11px; letter-spacing: 2px; margin-bottom: 4px; }
+
+  /* FORM */
+  .form-section { background: var(--cream); padding: 96px 64px; }
+  .form-inner { max-width: 600px; margin: 0 auto; }
+  .form-header { text-align: center; margin-bottom: 40px; }
+  .inst-toggle { display: flex; gap: 10px; margin-bottom: 28px; }
+  .inst-btn { flex: 1; padding: 14px; border-radius: 4px; border: 2px solid rgba(26,18,8,0.2); background: white; font-size: 15px; font-weight: 500; cursor: pointer; text-align: center; transition: all 0.2s; color: var(--dark); }
+  .inst-btn.active { border-color: var(--gold); background: var(--gold); color: var(--dark); }
+  .form-fields { display: flex; flex-direction: column; gap: 16px; }
+  .form-label { font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--warm-gray); display: block; margin-bottom: 6px; }
+  .form-input { width: 100%; padding: 14px 16px; border-radius: 4px; border: 1.5px solid rgba(26,18,8,0.15); background: white; font-size: 15px; color: var(--dark); outline: none; transition: border 0.2s; font-family: 'DM Sans', sans-serif; }
+  .form-input:focus { border-color: var(--gold); }
+  .form-select { width: 100%; padding: 14px 16px; border-radius: 4px; border: 1.5px solid rgba(26,18,8,0.15); background: white; font-size: 15px; color: var(--dark); outline: none; font-family: 'DM Sans', sans-serif; appearance: none; cursor: pointer; transition: border 0.2s; }
+  .form-select:focus { border-color: var(--gold); }
+  .form-submit { width: 100%; padding: 16px; border-radius: 4px; border: none; background: var(--dark); color: var(--cream); font-size: 16px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; margin-top: 8px; }
+  .form-submit:hover { background: var(--gold); color: var(--dark); }
+  .form-success { display: none; padding: 16px; border-radius: 4px; background: #E1F5EE; color: #085041; font-size: 14px; text-align: center; font-weight: 500; margin-bottom: 12px; }
+  .form-note { text-align: center; font-size: 13px; color: var(--warm-gray); margin-top: 16px; }
+  .form-contacts { display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+  .btn-outline-sm { padding: 10px 20px; border-radius: 2px; border: 1.5px solid var(--dark); font-size: 13px; font-weight: 500; color: var(--dark); text-decoration: none; transition: all 0.2s; }
+  .btn-outline-sm:hover { background: var(--dark); color: var(--cream); }
+
+  footer { background: var(--dark); color: rgba(245,240,232,0.4); padding: 36px 64px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; flex-wrap: wrap; gap: 12px; }
+  footer .nav-logo { color: var(--cream); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-badge { animation: fadeUp 0.5s ease both; }
+  h1 { animation: fadeUp 0.5s 0.1s ease both; }
+  .hero-sub { animation: fadeUp 0.5s 0.2s ease both; }
+  .hero-actions { animation: fadeUp 0.5s 0.3s ease both; }
+
+  @media (max-width: 900px) {
+    nav { padding: 14px 20px; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 110px 24px 60px; }
+    .hero-right { display: none; }
+    section, .form-section, .testimonials-section { padding: 64px 24px; }
+    .trial-banner { padding: 40px 24px; flex-direction: column; }
+    .why-grid { grid-template-columns: 1fr; gap: 40px; }
+    .why-visual { position: static; }
+    .packages-grid { grid-template-columns: 1fr; max-width: 420px; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    footer { padding: 28px 24px; flex-direction: column; text-align: center; }
+    .inst-toggle { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Piano+Guitar<span>Đệm Hát</span></div>
+  <a href="#dang-ky" class="nav-cta">Học thử miễn phí</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">🎹 Piano + Guitar Đệm Hát · Online 1 kèm 1</div>
+    <h1>Piano + Guitar<em>Đệm Hát Online</em><em>1 Kèm 1.</em></h1>
+    <p class="hero-sub">Học 1 kèm 1 trực tuyến cùng em Tâm — linh hoạt theo múi giờ của bạn, dù bạn đang ở đâu trên thế giới. Em có thể dạy bằng tiếng Anh cho các bạn nhỏ.</p>
+    <div class="hero-tags">
+      <span class="hero-tag">🌍 Học online qua Zoom / Meet</span>
+      <span class="hero-tag">👤 1 thầy · 1 trò</span>
+      <span class="hero-tag">🕐 Linh hoạt theo giờ bạn</span>
+      <span class="hero-tag">🎵 Guitar & Piano</span>
+    </div>
+    <div class="hero-actions">
+      <a href="#dang-ky" class="btn-trial">Học thử 1 buổi miễn phí →</a>
+      <a href="#packages" class="btn-primary">Xem học phí</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-bg-text">♪</div>
+    <div class="hero-card">
+      <div class="hero-card-icon">🎵</div>
+      <h3>Cam kết đàn được<br>sau 20 buổi</h3>
+      <p>Học online 1 kèm 1 — thầy tập trung 100% vào bạn, điều chỉnh theo tốc độ và múi giờ của bạn</p>
+      <div class="stats-row">
+        <div class="stat"><span class="stat-num">20</span><span class="stat-label">Buổi</span></div>
+        <div class="stat-div"></div>
+        <div class="stat"><span class="stat-num">60'</span><span class="stat-label">Mỗi buổi</span></div>
+        <div class="stat-div"></div>
+        <div class="stat"><span class="stat-num">1:1</span><span class="stat-label">Online</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRIAL BANNER -->
+<div class="trial-banner">
+  <div class="trial-left">
+    <h2>Học thử <span>1 buổi miễn phí</span> — không cần cam kết</h2>
+    <p>Trải nghiệm trước khi quyết định. Buổi học thử 60 phút 1 kèm 1, em Tâm sẽ đánh giá trình độ và tư vấn lộ trình phù hợp cho bạn.</p>
+  </div>
+  <div class="trial-right">
+    <a href="#dang-ky" class="btn-trial-big">Đăng ký học thử ngay →</a>
+  </div>
+</div>
+
+<!-- WHY -->
+<section class="why-section">
+  <div class="why-grid">
+    <div>
+      <p class="section-eyebrow">Tại sao chọn chúng tôi</p>
+      <h2 class="section-title">Học đúng cách,<br>tiến nhanh hơn.</h2>
+      <div class="why-list">
+        <div class="why-item">
+          <div class="why-num">01</div>
+          <div class="why-text">
+            <h4>Học 1 kèm 1 — thầy tập trung hoàn toàn vào bạn</h4>
+            <p>Không học lớp đông, không bị bỏ lại phía sau. Mỗi buổi em Tâm chỉ dạy một mình bạn, điều chỉnh nội dung và tốc độ theo đúng trình độ.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-num">02</div>
+          <div class="why-text">
+            <h4>Online — học mọi nơi trên thế giới</h4>
+            <p>Dù bạn ở Mỹ, Úc, Châu Âu hay bất cứ đâu — chỉ cần laptop và kết nối mạng là học được. Lịch học linh hoạt theo múi giờ của bạn.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-num">03</div>
+          <div class="why-text">
+            <h4>Học bài nhạc bạn yêu thích ngay từ đầu</h4>
+            <p>Không chỉ học lý thuyết khô khan. Bạn sẽ được áp dụng vào bài hát mình thích từ buổi 5 trở đi.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-num">04</div>
+          <div class="why-text">
+            <h4>Cam kết kết quả — học thử trước khi đăng ký</h4>
+            <p>Học thử 1 buổi miễn phí, không ràng buộc. Sau 20 buổi tự đệm hát được — hoặc em Tâm dạy bù miễn phí.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="why-visual">
+      <div class="why-visual-title">Piano + Guitar Đệm Hát</div>
+      <div class="inst-grid">
+        <div class="inst-box">
+          <div class="inst-icon">🎸</div>
+          <span class="inst-name">Guitar</span>
+          <span class="inst-desc">Hợp âm, strumming, fingerpicking, đệm hát bài yêu thích</span>
+        </div>
+        <div class="inst-box">
+          <div class="inst-icon">🎹</div>
+          <span class="inst-name">Piano</span>
+          <span class="inst-desc">Kỹ thuật tay, hòa âm, đệm hát bài yêu thích</span>
+        </div>
+      </div>
+      <p class="why-caption">Cả hai môn đều được dạy online 1 kèm 1, theo lộ trình 20 buổi hoặc 50 buổi. Bạn có thể học một môn hoặc cả hai.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="packages-section" id="packages">
+  <div class="packages-header">
+    <p class="section-eyebrow">Học phí</p>
+    <h2 class="section-title">Minh bạch · Rõ ràng · Không phát sinh.</h2>
+    <p class="section-desc" style="margin:0 auto">Học 1 kèm 1 online · 60 phút/buổi · Lịch học linh hoạt theo múi giờ của bạn</p>
+  </div>
+  <div class="pkg-tabs">
+    <div class="pkg-tab active" onclick="switchPkg('guitar')">🎸 Guitar</div>
+    <div class="pkg-tab" onclick="switchPkg('piano')">🎹 Piano</div>
+  </div>
+
+  <!-- Guitar -->
+  <div class="pkg-panel active" id="pkg-guitar">
+    <div class="packages-grid">
+      <div class="package-card">
+        <div class="pkg-sessions">🎸 Guitar · 20 buổi · 1 kèm 1 online</div>
+        <div class="pkg-name">Gói Khởi Đầu</div>
+        <div class="pkg-price">
+          <div class="pkg-price-main">7.500.000 ₫</div>
+          <div class="pkg-price-sub">hoặc $300 USD · ~375.000 ₫/buổi</div>
+        </div>
+        <p class="pkg-desc">Từ zero đến tự đệm hát bài yêu thích. Phù hợp người mới bắt đầu hoàn toàn.</p>
+        <ul class="pkg-features">
+          <li>Học 1 kèm 1 online qua Zoom/Meet</li>
+          <li>8+ hợp âm cơ bản và barre</li>
+          <li>Strumming & Fingerpicking</li>
+          <li>Đọc tab guitar</li>
+          <li>3–5 bài nhạc hoàn chỉnh</li>
+          <li>Hỗ trợ qua tin nhắn giữa các buổi</li>
+          <li>Chứng nhận hoàn thành khóa học</li>
+        </ul>
+        <a href="#dang-ky" class="pkg-cta">Đăng ký · Guitar 20 buổi</a>
+      </div>
+      <div class="package-card featured">
+        <div class="featured-tag">Tiết kiệm hơn</div>
+        <div class="pkg-sessions">🎸 Guitar · 50 buổi · 1 kèm 1 online</div>
+        <div class="pkg-name">Gói Nâng Cao</div>
+        <div class="pkg-price">
+          <div class="pkg-price-main">15.000.000 ₫</div>
+          <div class="pkg-price-sub">hoặc $600 USD · ~300.000 ₫/buổi</div>
+        </div>
+        <p class="pkg-desc">Từ cơ bản đến solo, fingerstyle nâng cao — chơi guitar thực sự tốt.</p>
+        <ul class="pkg-features">
+          <li>Học 1 kèm 1 online qua Zoom/Meet</li>
+          <li>Toàn bộ nội dung gói 20 buổi</li>
+          <li>Solo guitar & lead playing</li>
+          <li>Fingerstyle nâng cao</li>
+          <li>Lý thuyết âm nhạc cơ bản</li>
+          <li>10+ bài nhạc đa thể loại</li>
+          <li>Ưu tiên đặt lịch & hỗ trợ 24/7</li>
+        </ul>
+        <a href="#dang-ky" class="pkg-cta">Đăng ký · Guitar 50 buổi</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Piano -->
+  <div class="pkg-panel" id="pkg-piano">
+    <div class="packages-grid">
+      <div class="package-card">
+        <div class="pkg-sessions">🎹 Piano · 20 buổi · 1 kèm 1 online</div>
+        <div class="pkg-name">Gói Khởi Đầu</div>
+        <div class="pkg-price">
+          <div class="pkg-price-main">8.000.000 ₫</div>
+          <div class="pkg-price-sub">hoặc $325 USD · ~400.000 ₫/buổi</div>
+        </div>
+        <p class="pkg-desc">Từ zero đến tự đệm và chơi được bài piano yêu thích sau 20 buổi.</p>
+        <ul class="pkg-features">
+          <li>Học 1 kèm 1 online qua Zoom/Meet</li>
+          <li>Kỹ thuật tay trái & tay phải</li>
+          <li>Đọc nốt nhạc cơ bản</li>
+          <li>Hòa âm & đệm bài hát</li>
+          <li>3–5 bài nhạc hoàn chỉnh</li>
+          <li>Hỗ trợ qua tin nhắn giữa các buổi</li>
+          <li>Chứng nhận hoàn thành khóa học</li>
+        </ul>
+        <a href="#dang-ky" class="pkg-cta">Đăng ký · Piano 20 buổi</a>
+      </div>
+      <div class="package-card featured">
+        <div class="featured-tag">Tiết kiệm hơn</div>
+        <div class="pkg-sessions">🎹 Piano · 50 buổi · 1 kèm 1 online</div>
+        <div class="pkg-name">Gói Nâng Cao</div>
+        <div class="pkg-price">
+          <div class="pkg-price-main">16.000.000 ₫</div>
+          <div class="pkg-price-sub">hoặc $650 USD · ~320.000 ₫/buổi</div>
+        </div>
+        <p class="pkg-desc">Từ cơ bản đến chơi piano thực sự tốt — kỹ thuật nâng cao và nhiều thể loại nhạc.</p>
+        <ul class="pkg-features">
+          <li>Học 1 kèm 1 online qua Zoom/Meet</li>
+          <li>Toàn bộ nội dung gói 20 buổi</li>
+          <li>Kỹ thuật nâng cao: pedal, dynamics</li>
+          <li>Lý thuyết âm nhạc & hòa âm</li>
+          <li>10+ bài nhạc đa thể loại</li>
+          <li>Ưu tiên đặt lịch & hỗ trợ 24/7</li>
+          <li>Video ghi lại từng buổi học</li>
+        </ul>
+        <a href="#dang-ky" class="pkg-cta">Đăng ký · Piano 50 buổi</a>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin-top:28px;font-size:13px;color:var(--warm-gray)">✦ Học thử 1 buổi miễn phí trước khi đăng ký gói · Không ràng buộc</p>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="testimonials-inner">
+    <div class="testimonials-header">
+      <p class="section-eyebrow">Học viên nói gì</p>
+      <h2 class="section-title">Người Việt xa xứ<br>đã học thế nào.</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Mình ở Mỹ, múi giờ lệch nhiều nhưng thầy rất linh hoạt. Chỉ sau 5 buổi đã đánh được bài đầu tiên. Học 1 kèm 1 online tiện hơn mình nghĩ nhiều!</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">🎵</div>
+          <div>
+            <div class="author-name">Minh Châu</div>
+            <div class="author-detail">Học guitar · California, USA</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Mình 35 tuổi mới học piano, sợ không theo kịp. Nhưng vì học 1 kèm 1, em Tâm điều chỉnh hoàn toàn theo tốc độ mình. Giờ đã tự đệm được bài yêu thích rồi!</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">🎹</div>
+          <div>
+            <div class="author-name">Thanh Hùng</div>
+            <div class="author-detail">Học piano · Melbourne, Úc</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text">Buổi học thử đầu tiên mình đã thấy thầy dạy rất bài bản. Đăng ký gói luôn sau đó. Học online mà chất lượng không thua gì học trực tiếp.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">🎸</div>
+          <div>
+            <div class="author-name">Phương Linh</div>
+            <div class="author-detail">Học guitar · Berlin, Đức</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="form-section" id="dang-ky">
+  <div class="form-inner">
+    <div class="form-header">
+      <p class="section-eyebrow">Đăng ký</p>
+      <h2 class="section-title">Học thử 1 buổi<br>miễn phí.</h2>
+      <p class="section-desc" style="margin:0 auto;text-align:center">Điền thông tin bên dưới — em Tâm sẽ liên hệ trong vòng 24 giờ để sắp xếp lịch học thử phù hợp với múi giờ của bạn.</p>
+    </div>
+
+    <div class="inst-toggle">
+      <div class="inst-btn active" id="ibtn-guitar" onclick="selInst('guitar')">🎸 Guitar</div>
+      <div class="inst-btn" id="ibtn-piano" onclick="selInst('piano')">🎹 Piano</div>
+      <div class="inst-btn" id="ibtn-both" onclick="selInst('both')">🎵 Cả hai</div>
+    </div>
+    <input type="hidden" id="inst-val" value="guitar">
+
+    <div class="form-fields">
+      <div>
+        <label class="form-label">Họ và tên</label>
+        <input class="form-input" id="f-name" type="text" placeholder="Nguyễn Văn A">
+      </div>
+      <div>
+        <label class="form-label">Email</label>
+        <input class="form-input" id="f-email" type="email" placeholder="email@gmail.com">
+      </div>
+      <div>
+        <label class="form-label">Số điện thoại / Zalo / WhatsApp</label>
+        <input class="form-input" id="f-phone" type="tel" placeholder="+1 234 567 890">
+      </div>
+      <div>
+        <label class="form-label">Quốc gia đang sinh sống</label>
+        <select class="form-select" id="f-country">
+          <option value="">-- Chọn quốc gia --</option>
+          <option>🇺🇸 Mỹ (USA)</option>
+          <option>🇨🇦 Canada</option>
+          <option>🇦🇺 Úc (Australia)</option>
+          <option>🇸🇬 Singapore</option>
+          <option>Quốc gia khác</option>
+        </select>
+      </div>
+      <div id="form-success" class="form-success">✅ Đã nhận thông tin! Em Tâm sẽ liên hệ bạn trong vòng 24 giờ để sắp xếp buổi học thử 🎵</div>
+      <button class="form-submit" onclick="submitForm()">Đăng ký học thử miễn phí →</button>
+    </div>
+    <p class="form-note">✦ Hoàn toàn miễn phí · Không ràng buộc · Học 1 kèm 1 online</p>
+    <div class="form-contacts">
+      <a href="https://zalo.me/0965817021" class="btn-outline-sm">💬 Nhắn Zalo</a>
+      <a href="https://wa.me/84965817021" class="btn-outline-sm">📱 WhatsApp</a>
+      <a href="https://fb.com/truongnthanhtam" class="btn-outline-sm">📘 Facebook</a>
+      <a href="tel:0965817021" class="btn-outline-sm">📞 Gọi điện</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="nav-logo">Piano+Guitar<span>Đệm Hát</span></div>
+  <div>© 2025 · Piano + Guitar Đệm Hát</div>
+  <div>Zalo: 0965817021 · <a href="https://fb.com/truongnthanhtam" style="color:rgba(245,240,232,0.4);text-decoration:none">fb.com/truongnthanhtam</a></div>
+</footer>
+
+<script>
+function switchPkg(tab) {
+  document.querySelectorAll('.pkg-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.pkg-panel').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('pkg-' + tab).classList.add('active');
+}
+function selInst(val) {
+  document.getElementById('inst-val').value = val;
+  ['guitar','piano','both'].forEach(id => {
+    document.getElementById('ibtn-' + id).classList.toggle('active', id === val);
+  });
+}
+function submitForm() {
+  const name = document.getElementById('f-name').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const country = document.getElementById('f-country').value;
+  const inst = document.getElementById('inst-val').value;
+  if (!name || !email || !phone || !country) { alert('Vui lòng điền đầy đủ thông tin!'); return; }
+  document.getElementById('form-success').style.display = 'block';
+  const instName = inst === 'guitar' ? 'Guitar' : inst === 'piano' ? 'Piano' : 'Guitar & Piano';
+  const subject = encodeURIComponent('Đăng ký học thử ' + instName + ' - ' + name);
+  const body = encodeURIComponent('Họ tên: ' + name + '\nEmail: ' + email + '\nĐiện thoại: ' + phone + '\nQuốc gia: ' + country + '\nMôn học: ' + instName + '\nGhi chú: Đăng ký học thử 1 buổi miễn phí');
+  setTimeout(() => { window.location.href = 'mailto:truongthanhtamvinici@gmail.com?subject=' + subject + '&body=' + body; }, 800);
+}
+</script>
+</body>
+</html>
