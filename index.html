@@ -187,6 +187,25 @@
     .inst-toggle { flex-direction: column; }
   }
 </style>
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1474158190921102');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1474158190921102&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
 </head>
 <body>
 
@@ -668,6 +687,7 @@ async function submitForm() {
       body: JSON.stringify({ name, email, phone, country, instrument: instName, message: 'Đăng ký học thử 1 buổi miễn phí' })
     });
     if (res.ok) {
+      fbq('track', 'Lead', { content_name: 'Đăng ký học thử miễn phí' });
       document.getElementById('form-success').style.display = 'block';
       btn.textContent = '✅ Đã gửi thành công!';
       document.getElementById('f-name').value = '';
@@ -691,6 +711,41 @@ function selectAndScroll(inst) {
     document.getElementById('dang-ky').scrollIntoView({behavior:'smooth'});
   }, 50);
 }
+
+// ===== FACEBOOK PIXEL EVENTS =====
+document.addEventListener('DOMContentLoaded', function() {
+
+  // Track xem học phí (ViewContent)
+  var pkgSection = document.getElementById('packages');
+  if (pkgSection) {
+    var pkgViewed = false;
+    window.addEventListener('scroll', function() {
+      if (!pkgViewed && pkgSection.getBoundingClientRect().top < window.innerHeight) {
+        fbq('track', 'ViewContent', { content_name: 'Xem học phí' });
+        pkgViewed = true;
+      }
+    });
+  }
+
+  // Track bấm Zalo / WhatsApp / Gọi điện (Contact)
+  document.querySelectorAll('a[href*="zalo.me"], a[href*="wa.me"], a[href*="tel:"]').forEach(function(el) {
+    el.addEventListener('click', function() {
+      fbq('track', 'Contact');
+    });
+  });
+
+  // Track bấm nút Đăng ký / Học thử (InitiateCheckout)
+  document.querySelectorAll('a[href*="#dang-ky"]').forEach(function(el) {
+    el.addEventListener('click', function() {
+      fbq('track', 'InitiateCheckout');
+    });
+  });
+
+});
+
+// Track submit form (Lead) - gắn vào hàm submitForm có sẵn
+const _origSubmitForm = submitForm;
+// Override bên dưới sau khi hàm được định nghĩa
 
 function switchRoadmap(inst) {
   document.getElementById('rm-guitar').style.display = inst==='guitar' ? 'block' : 'none';
