@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tra Cứu Hợp Âm — Piano + Guitar Đệm Hát</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--cream:#F5F0E8;--dark:#1A1208;--gold:#C8942A;--gold-light:#E8B84B;--warm-gray:#8A7F6E;--border:rgba(200,148,42,0.2)}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(245,240,232,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--dark);text-decoration:none}
+.nav-logo span{color:var(--gold);font-style:italic}
+.nav-back{font-size:13px;color:var(--warm-gray);text-decoration:none;display:flex;align-items:center;gap:6px}
+.nav-back:hover{color:var(--gold)}
+.nav-cta{background:var(--dark);color:var(--cream);padding:9px 20px;border-radius:2px;font-size:13px;font-weight:500;text-decoration:none}
+.nav-cta:hover{background:var(--gold);color:var(--dark)}
+
+.search-hero{padding:110px 64px 56px;text-align:center;background:var(--dark);position:relative;overflow:hidden}
+.search-hero::before{content:'♪';font-family:'Playfair Display',serif;font-size:500px;font-weight:900;font-style:italic;color:rgba(200,148,42,0.04);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);user-select:none;pointer-events:none}
+.hero-eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;font-weight:500}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(40px,5vw,64px);font-weight:900;color:var(--cream);letter-spacing:-2px;line-height:1;margin-bottom:12px}
+.hero-title em{color:var(--gold);font-style:italic}
+.hero-sub{font-size:16px;color:rgba(245,240,232,0.5);margin-bottom:36px}
+
+.search-box{max-width:640px;margin:0 auto;position:relative;z-index:2}
+.search-input{width:100%;padding:18px 56px 18px 24px;border-radius:4px;border:none;background:white;font-size:17px;color:var(--dark);font-family:'DM Sans',sans-serif;outline:none;box-shadow:0 4px 24px rgba(0,0,0,0.3)}
+.search-input::placeholder{color:#C4B8A8}
+.search-icon{position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:20px;color:var(--warm-gray)}
+.search-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.tag{font-size:12px;padding:5px 14px;border-radius:20px;border:1px solid rgba(245,240,232,0.2);color:rgba(245,240,232,0.55);cursor:pointer;transition:all 0.2s}
+.tag:hover{background:rgba(200,148,42,0.2);border-color:var(--gold);color:var(--gold)}
+.tag.active{background:var(--gold);border-color:var(--gold);color:var(--dark)}
+
+.main{padding:48px 64px;max-width:1200px;margin:0 auto}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.section-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--dark)}
+.count-badge{font-size:13px;color:var(--warm-gray)}
+
+.songs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:48px}
+.song-card{background:white;border:1px solid var(--border);border-radius:8px;padding:20px;cursor:pointer;transition:all 0.2s;position:relative}
+.song-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(26,18,8,0.1);border-color:var(--gold)}
+.song-genre{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:8px}
+.song-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--dark);margin-bottom:4px;line-height:1.2}
+.song-artist{font-size:13px;color:var(--warm-gray);margin-bottom:12px}
+.song-chords{display:flex;gap:6px;flex-wrap:wrap}
+.chord-pill{font-size:12px;font-weight:600;font-family:'Playfair Display',serif;padding:3px 10px;border-radius:4px;background:rgba(200,148,42,0.1);color:var(--gold);border:1px solid rgba(200,148,42,0.25)}
+.song-meta{display:flex;gap:12px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}
+.song-meta-item{font-size:11px;color:var(--warm-gray)}
+.song-meta-item span{color:var(--dark);font-weight:500}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(26,18,8,0.7);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:80px 20px 20px;overflow-y:auto}
+.modal-overlay.open{display:flex}
+.modal{background:var(--cream);border-radius:8px;max-width:800px;width:100%;position:relative}
+.modal-header{padding:32px 40px 24px;border-bottom:1px solid var(--border)}
+.modal-close{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;background:var(--dark);color:var(--cream);border:none;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.modal-genre{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.modal-title{font-family:'Playfair Display',serif;font-size:44px;font-weight:900;color:var(--dark);letter-spacing:-1.5px;line-height:1;margin-bottom:6px}
+.modal-artist{font-size:15px;color:var(--warm-gray);font-style:italic;margin-bottom:16px}
+.modal-info{display:flex;gap:16px;flex-wrap:wrap}
+.info-pill{font-size:12px;font-weight:500;padding:5px 14px;border-radius:20px;border:1.5px solid var(--dark);color:var(--dark)}
+.info-pill.gold{background:var(--gold);color:var(--dark);border-color:var(--gold)}
+
+.modal-body{padding:32px 40px}
+
+/* Transpose */
+.transpose-row{display:flex;align-items:center;gap:12px;margin-bottom:28px;padding:16px 20px;background:white;border-radius:6px;border:1px solid var(--border)}
+.transpose-label{font-size:13px;color:var(--warm-gray);font-weight:500}
+.transpose-btn{width:32px;height:32px;border-radius:4px;border:1.5px solid var(--dark);background:transparent;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--dark);transition:all 0.15s}
+.transpose-btn:hover{background:var(--dark);color:var(--cream)}
+.transpose-key{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold);min-width:32px;text-align:center}
+.transpose-reset{font-size:12px;color:var(--warm-gray);cursor:pointer;margin-left:8px}
+.transpose-reset:hover{color:var(--gold)}
+
+/* Chord diagrams */
+.chords-section{margin-bottom:28px}
+.chords-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;font-weight:500}
+.chords-row{display:flex;gap:14px;flex-wrap:wrap}
+.chord-diag{background:white;border-radius:8px;padding:12px 10px;text-align:center;border:1px solid var(--border);min-width:72px}
+.chord-diag-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--dark);margin-bottom:6px}
+
+/* Lyrics */
+.lyrics-section{}
+.lyrics-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:18px;font-weight:500}
+.verse{margin-bottom:20px}
+.verse-head{font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--warm-gray);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.verse-head::after{content:'';flex:1;height:1px;background:var(--border)}
+.verse-head.chorus{color:var(--gold)}
+.lyric-line{font-size:16px;color:var(--dark);line-height:2.2}
+.ch{color:var(--gold);font-weight:700;font-family:'Playfair Display',serif;font-size:14px}
+
+.no-results{text-align:center;padding:80px 20px;color:var(--warm-gray)}
+.no-results-icon{font-size:48px;margin-bottom:16px}
+.no-results h3{font-family:'Playfair Display',serif;font-size:24px;color:var(--dark);margin-bottom:8px}
+
+@media(max-width:768px){
+  nav{padding:14px 20px}
+  .search-hero{padding:90px 24px 40px}
+  .main{padding:32px 20px}
+  .songs-grid{grid-template-columns:1fr}
+  .modal{margin:0}
+  .modal-header,.modal-body{padding:24px 20px}
+  .modal-title{font-size:32px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Piano+Guitar<span>Đệm Hát</span></a>
+  <a href="index.html" class="nav-back">← Về trang chủ</a>
+  <a href="index.html#dang-ky" class="nav-cta">Học thử miễn phí</a>
+</nav>
+
+<div class="search-hero">
+  <div class="hero-eyebrow">Thư viện hợp âm</div>
+  <h1 class="hero-title">Tra Cứu<br><em>Hợp Âm</em></h1>
+  <p class="hero-sub">Lời bài hát · Hợp âm · Sơ đồ bấm · Đổi tone</p>
+  <div class="search-box">
+    <input class="search-input" type="text" id="searchInput" placeholder="Tìm bài hát, ca sĩ..." oninput="filterSongs()">
+    <div class="search-icon">🔍</div>
+  </div>
+  <div class="search-tags">
+    <div class="tag active" onclick="filterByGenre('all',this)">Tất cả</div>
+    <div class="tag" onclick="filterByGenre('trinh',this)">Nhạc Trịnh</div>
+    <div class="tag" onclick="filterByGenre('viet',this)">Nhạc Việt</div>
+    <div class="tag" onclick="filterByGenre('quocte',this)">Quốc tế</div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="section-header">
+    <div class="section-title">Bài hát</div>
+    <div class="count-badge" id="countBadge">30 bài</div>
+  </div>
+  <div class="songs-grid" id="songsGrid"></div>
+  <div class="no-results" id="noResults" style="display:none">
+    <div class="no-results-icon">🎸</div>
+    <h3>Không tìm thấy bài hát</h3>
+    <p>Thử từ khóa khác hoặc chọn thể loại khác nhé!</p>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    <div class="modal-header">
+      <div class="modal-genre" id="mGenre"></div>
+      <div class="modal-title" id="mTitle"></div>
+      <div class="modal-artist" id="mArtist"></div>
+      <div class="modal-info">
+        <div class="info-pill gold" id="mTone"></div>
+        <div class="info-pill" id="mRhythm"></div>
+        <div class="info-pill" id="mLevel"></div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="transpose-row">
+        <span class="transpose-label">Đổi tone:</span>
+        <button class="transpose-btn" onclick="transpose(-1)">−</button>
+        <span class="transpose-key" id="transposeKey">Am</span>
+        <button class="transpose-btn" onclick="transpose(1)">+</button>
+        <span class="transpose-reset" onclick="resetTranspose()">↺ Reset</span>
+      </div>
+      <div class="chords-section">
+        <div class="chords-label">Hợp âm sử dụng</div>
+        <div class="chords-row" id="mChords"></div>
+      </div>
+      <div class="lyrics-section">
+        <div class="lyrics-label">Lời bài hát & hợp âm</div>
+        <div id="mLyrics"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const CHORD_SHAPES = {
+  E7:{strings:[0,2,0,1,0,0],fingers:[0,2,0,1,0,0]},
+  A7:{strings:[-1,0,2,0,2,0],fingers:[0,0,2,0,3,0]},
+  Dm7:{strings:[-1,-1,0,2,1,1],fingers:[0,0,0,2,1,1]},
+  Am7:{strings:[0,0,2,0,1,0],fingers:[0,0,2,0,1,0]},
+  Em7:{strings:[0,2,2,0,3,0],fingers:[0,2,3,0,4,0]},
+  Gm7:{strings:[3,5,5,3,3,3],fingers:[1,3,4,1,1,1],barre:true},
+  Cm7:{strings:[-1,3,5,3,4,3],fingers:[0,1,3,1,2,1],barre:true},
+  Bm:{strings:[-1,2,4,4,3,2],fingers:[0,1,3,4,2,1],barre:true},
+  Bb:{strings:[-1,1,3,3,3,1],fingers:[0,1,2,3,4,1],barre:true},
+  'F#m':{strings:[2,4,4,2,2,2],fingers:[1,3,4,1,1,1],barre:true},
+  'F#7':{strings:[2,4,2,3,2,2],fingers:[1,3,1,2,1,1],barre:true},
+  'C#m':{strings:[-1,4,6,6,5,4],fingers:[0,1,3,4,2,1],barre:true},
+  'C#':{strings:[-1,4,6,6,6,4],fingers:[0,1,3,4,4,1],barre:true},
+  'F#':{strings:[2,4,4,3,2,2],fingers:[1,3,4,2,1,1],barre:true},
+  Gm:{strings:[3,5,5,3,3,3],fingers:[1,3,4,1,1,1],barre:true},
+  B7:{strings:[-1,2,1,2,0,2],fingers:[0,2,1,3,0,4]},
+  G7:{strings:[3,2,0,0,0,1],fingers:[3,2,0,0,0,1]},
+  Cmaj7:{strings:[-1,3,2,0,0,0],fingers:[0,3,2,0,0,0]},
+  Fmaj7:{strings:[-1,-1,3,2,1,0],fingers:[0,0,3,2,1,0]},
+  Dsus2:{strings:[-1,-1,0,2,3,0],fingers:[0,0,0,1,3,0]},
+  Gsus4:{strings:[3,3,0,0,1,3],fingers:[2,3,0,0,1,4]},
+  'Bb7':{strings:[-1,1,3,1,3,1],fingers:[0,1,3,1,4,1],barre:true},
+  Ebm:{strings:[-1,-1,5,3,4,3],fingers:[0,0,3,1,2,1]},
+  Abm:{strings:[4,6,6,4,4,4],fingers:[1,3,4,1,1,1],barre:true},
+  B:{strings:[-1,2,4,4,4,2],fingers:[0,1,3,4,4,1],barre:true},
+  'G#':{strings:[4,6,6,5,4,4],fingers:[1,3,4,2,1,1],barre:true},
+  Am:{strings:[0,0,2,2,1,0],fingers:[0,0,2,3,1,0]},
+  Dm:{strings:[-1,0,0,2,3,1],fingers:[0,0,0,2,3,1]},
+  E:{strings:[0,2,2,1,0,0],fingers:[0,2,3,1,0,0]},
+  F:{strings:[1,1,2,3,3,1],fingers:[1,1,2,3,4,1],barre:true},
+  G:{strings:[3,2,0,0,0,3],fingers:[3,2,0,0,0,4]},
+  C:{strings:[-1,3,2,0,1,0],fingers:[0,3,2,0,1,0]},
+  Am7:{strings:[0,0,2,0,1,0],fingers:[0,0,2,0,1,0]},
+  Em:{strings:[0,2,2,0,0,0],fingers:[0,2,3,0,0,0]},
+  D:{strings:[-1,-1,0,2,3,2],fingers:[0,0,0,1,3,2]},
+  Bm:{strings:[-1,2,4,4,3,2],fingers:[0,1,3,4,2,1],barre:true},
+  A:{strings:[-1,0,2,2,2,0],fingers:[0,0,1,2,3,0]},
+  B7:{strings:[-1,2,1,2,0,2],fingers:[0,2,1,3,0,4]},
+  G7:{strings:[3,2,0,0,0,1],fingers:[3,2,0,0,0,1]},
+  Cmaj7:{strings:[-1,3,2,0,0,0],fingers:[0,3,2,0,0,0]},
+  Fmaj7:{strings:[-1,-1,3,2,1,0],fingers:[0,0,3,2,1,0]},
+  Dsus2:{strings:[-1,-1,0,2,3,0],fingers:[0,0,0,1,3,0]},
+  E7:{strings:[0,2,0,1,0,0],fingers:[0,2,0,1,0,0]},
+  'C#m':{strings:[-1,4,6,6,5,4],fingers:[0,1,3,4,2,1],barre:true},
+  'A#':{strings:[-1,1,3,3,3,1],fingers:[0,1,2,3,4,1],barre:true},
+  'F#m':{strings:[2,4,4,2,2,2],fingers:[1,3,4,1,1,1],barre:true},
+};
+
+const ALL_NOTES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+const CHORD_ROOTS = {'Cb':'B','Db':'C#','Eb':'D#','Fb':'E','Gb':'F#','Ab':'G#','Bb':'A#'};
+
+function normalizeChord(c){return CHORD_ROOTS[c]||c}
+function chordRoot(c){return c.match(/^[A-G]#?/)?.[0]||c[0]}
+function chordSuffix(c){return c.replace(/^[A-G]#?/,'')}
+function transposeChord(c,steps){
+  const r=normalizeChord(chordRoot(c));
+  const s=chordSuffix(c);
+  const idx=ALL_NOTES.indexOf(r);
+  if(idx===-1)return c;
+  return ALL_NOTES[(idx+steps+12)%12]+s;
+}
+
+const SONGS = [
+  {id:1,name:'Biển Nhớ',artist:'Trịnh Công Sơn',genre:'trinh',tone:'Am',rhythm:'Slow',level:'Cơ bản ★★☆',
+   chords:['Am','A7','Dm','F','E7'],
+   verses:[
+    {type:'verse',label:'Đoạn 1',lines:['Ngày mai em [Am]đi biển [A7]nhớ tên em gọi [Dm]về','Gọi [F]hồn liễu rũ lê [E7]thê gọi bờ cát trắng đêm [Am]khuya','Ngày mai em [A7]đi đồi [Dm]núi nghiêng nghiêng đợi [E7]chờ','Sỏi [F]đá trông em từng [Dm]giờ nghe buồn nhịp chân [E7]bơ vơ','Ngày mai em [Am]đi biển [A7]nhớ em quay về [Dm]nguồn','Gọi [F]trùng dương gió ngập [E7]hồn bàn tay chắn gió mưa [Am]sang','Ngày mai em [A7]đi thành [Dm]phố mắt đêm đèn [E7]vàng','Hồn [F]lẻ nghiêng vai gọi [Dm]buồn nghe [E7]ngoài biển động buồn [Am]hơn']},
+    {type:'chorus',label:'Điệp khúc',lines:['Hôm nào em [Dm]về bàn [F]tay buông lối [E7]ngỏ','Đàn lên cung phím chờ sầu [E7]lên đây hoang vu']},
+    {type:'verse',label:'Đoạn 2',lines:['Ngày mai em [Am]đi. Biển [A7]nhớ tên em gọi [Dm]về','Triều [F]sương ướt đẫm cơn [E7]mê trời cao níu bước Sơn [Am]Khê','Ngày mai em [A7]đi cồn [Dm]đá rêu phong rủ [E7]buồn','Đèn [F]phố nghe mưa tủi [Dm]hờn nghe ngoài trời giăng [E7]mây tuôn','Ngày mai em [Am]đi biển [A7]có bâng khuâng gọi [Dm]thầm','Ngày [F]mưa tháng nắng còn [E7]buồn bàn tay nghe ngóng tin [Am]sang','Ngày mai em [A7]đi thành [Dm]phố mắt đêm đèn [E7]vàng','Nửa [F]bóng xuân qua ngập [Dm]ngừng nghe [E7]trời gió lộng mà [Am]thương']}
+   ]},
+  {id:2,name:'Diễm Xưa',artist:'Trịnh Công Sơn',genre:'trinh',tone:'Am',rhythm:'Slow',level:'Cơ bản ★★☆',
+   chords:['Am','C','Dm','E7'],
+   verses:[
+    {type:'verse',label:'Đoạn 1',lines:['Mưa vẫn mưa bay trên tầng tháp [Am]cổ','Dài tay em [C]mấy thuở mắt xanh [Dm]xao','[E7]Nghe lá thu [Am]mưa reo mòn gót [E7]nhỏ','Đường dài hun hút cho mắt thêm [C]sâu. [E7]']},
+    {type:'verse',label:'Đoạn 2',lines:['Mưa vẫn hay mưa trên hàng lá [Am]nhỏ','Buổi chiều ngồi [C]ngóng những chuyến mưa [Dm]qua','[E7]Trên bước chân [Am]em âm thầm lá [E7]đổ','Chợt hồn xanh buốt cho mình xót [Am]xa.']},
+    {type:'chorus',label:'Điệp khúc',lines:['Chiều này còn [Dm]mưa sao em không lại','Nhỡ [Am]mai trong cơn đau vùi','Làm sao có [Dm]nhau hằn lên nỗi [E7]đau','Bước [Dm]chân em xin về [E7]mau.']},
+    {type:'verse',label:'Đoạn 3',lines:['Mưa vẫn hay mưa cho đời biển [Am]động','Làm sao em [C]nhớ những vết chim [Dm]di','[E7]Xin hãy cho [Am]mưa qua miền đất [E7]rộng','Để người phiêu lãng quên mình lãng [Am]du.']},
+    {type:'verse',label:'Đoạn 4',lines:['Mưa vẫn hay mưa cho đời biển [Am]động','Làm sao em [C]biết bia đá không [Dm]đau','[E7]Xin hãy cho [Am]mưa qua miền đất [E7]rộng','Ngày sau sỏi đá cũng cần có [Am]nhau.']}
+   ]},
+  {id:3,name:'Mưa Hồng',artist:'Trịnh Công Sơn',genre:'trinh',tone:'C',rhythm:'Slow',level:'Cơ bản ★★☆',
+   chords:['C','Am','F','G','Em','G7','Dm','Gm7'],
+   verses:[
+    {type:'verse',label:'Đoạn 1',lines:['Trời ươm [C]nắng cho mây [Am]hồng, mây qua [F]mau em nghiêng [G]sầu','Còn mưa [Em]xuống như hôm [F]nào em đến [G]thăm mây âm [C]thầm mang gió [G7]lên','Người ngồi [C]đó trông mưa [Am]nguồn, ôi yêu [F]thương nghe đã [G]buồn','Ngoài kia [Em]lá như vẫn [G]xanh, ngoài sông [Am]vắng nước dâng [G]lên hồn muôn [C]trùng']},
+    {type:'chorus',label:'Điệp khúc',lines:['Nay em đã [C]khóc chiều mưa đỉnh [Am]cao','[F]Còn gì nữa [Em]đâu sương mù đã [G]lâu','Em đi [C]về cầu mưa ướt [F]áo đường phượng [Dm]bay mù không lối [Am]vào','Hàng cây [G7]lá xanh gần với [C]nhau [G7]']},
+    {type:'verse',label:'Đoạn 2',lines:['Người ngồi [C]xuống mây ngang [Am]đầu, mong em [F]qua, bao nhiêu [C]chiều','Vòng tay [Em]đã xanh xao [F]nhiều, ôi tháng [C]năm gót chân [Am]mòn trên phiếm [G7]du','Người ngồi [C]xuống xin mưa [Am]đầy, trên hai [F]tay cơn đau [G]dài','Người nằm [Em]xuống nghe tiếng [G]ru, cuộc đời [Am]đó có bao [G7]lâu mà hững [C]hờ']}
+   ]},
+  {id:4,name:'Nối Vòng Tay Lớn',artist:'Trịnh Công Sơn',genre:'trinh',tone:'Am',rhythm:'Medium',level:'Cơ bản ★☆☆',
+   chords:['Am','F','E7','Dm','G','G7','C','E'],
+   verses:[
+    {type:'verse',label:'Đoạn 1',lines:['Rừng [Am]núi dang [F]tay nối [E7]lại biển [Am]xa','Ta [Dm]đi vòng tay [G]lớn mãi để [C]nối sơn [Am]hà [Dm]','Mặt [G7]đất bao [C]la anh [F]em ta [Am]về','Gặp [Dm]nhau mừng như [E7]bão cát quay [Am]cuồng trời [C]rộng','Bàn [E]tay ta [Dm]nắm nối [G]tròn một vòng Việt [Am]Nam.']},
+    {type:'chorus',label:'Điệp khúc',lines:['Cờ nối [C]gió đêm [E7]vui nối [Am]ngày','Giòng máu [F]nối con [G]tim đồng [C]loại','Dựng tình [Am]người trong ngày [E7]mới','Thành phố [C]nối thôn [E7]xa vời [Am]vợi','Người chết [F]nối linh [G]thiêng vào [C]đời','Và nụ [E7]cười nối trên [Am]môi.']},
+    {type:'verse',label:'Đoạn 2',lines:['Từ [Am]Bắc vô [F]Nam nối [E7]liền nắm [Am]tay','Ta [Dm]đi từ đồng [G]hoang vu vượt [C]hết núi [Am]đồi [Dm]','Vượt [G7]thác cheo [C]leo, tay [F]ta vượt [Am]đèo','Từ [Dm]quê nghèo lên [E7]phố lớn nắm [Am]tay nối [C]liền','Biển [E]xanh sông [Dm]gấm nối [G]liền một vòng tử [Am]sinh.']}
+   ]},
+  {id:5,name:'Ướt Mi',artist:'Trịnh Công Sơn',genre:'trinh',tone:'Am',rhythm:'Slow',level:'Cơ bản ★★☆',
+   chords:['Am','F','Dm','E','E7','C','G'],
+   verses:[
+    {type:'verse',label:'Đoạn 1',lines:['Ngoài [Am]hiên mưa rơi rơi, lòng [F]ai như chơi vơi','Người [Dm]ơi nước [Am]mắt hoen mi [E]rồi','Đừng khóc trong đêm [E7]mưa, đừng [Am]than trong câu [F]ca. [Am]','Buồn ơi trong đêm [Dm]thâu, ôm [Am]ấp giùm ta [C]nhé','Người [E]em thương mưa ngâu hay khóc sầu nhân [E7]thế','Tình [Am]ta đêm [E]về, có ấm từng [Am]cơn mơ em [F]chưa. [Am]']},
+    {type:'chorus',label:'Điệp khúc',lines:['Mưa lạnh lùng rơi [G]rớt giữa đêm [C]về nghe não [E]nề','[Dm]Mưa [Am]kéo dài lê [Dm]thê những đêm [E7]khuya lạnh ướt [Am]mi','Ai còn nhìn mưa [G]mãi rớt bên [C]song thêm lạnh [E]lùng','[Dm]Ai [E]còn buồn khi [F]lá rớt rơi [E7]trong một cuối [Am]đông.']},
+    {type:'verse',label:'Đoạn 2',lines:['Ngoài [Am]hiên mưa rơi rơi, buồn [F]dâng lên đôi môi','Buồn [Dm]đau hoen [Am]ướt mi ai [E]rồi','Buồn đi trong đêm [E7]khuya buồn [Am]rơi theo đêm [F]mưa [Am]','Còn mưa trong đêm [Dm]nay lòng [Am]em buồn biết [C]mấy','Trời [E]sao chưa thôi mưa ôi mắt người em [E7]ấy','Từ [Am]đây thôi [E]mờ nước mắt buồn [Am]mi em ngây [F]thơ. [Am]']}
+   ]},
+  {id:6,name:'Cát Bụi',artist:'Trịnh Công Sơn',genre:'trinh',tone:'Am',rhythm:'Slow',level:'Trung bình ★★★',
+   chords:['Am','Dm','E7','A','F#7','Bm','D','F#m'],
+   verses:[
+    {type:'verse',label:'Đoạn 1',lines:['Hạt bụi [Am]nào hóa kiếp thân tôi','Để một [Dm]mai vươn hình hài lớn [Am]dậy','[E7]Ôi cát bụi tuyệt [Dm]vời','Mặt trời [E7]soi một kiếp rong [E7]chơi','Hạt bụi [Am]nào hóa kiếp thân tôi','Để một [Dm]mai tôi về làm cát [Am]bụi','[E7]Ôi cát bụi mệt [Dm]nhoài','Tiếng động [E7]nào gõ nhịp không [Am]nguôi']},
+    {type:'chorus',label:'Điệp khúc',lines:['Bao nhiêu [A]năm làm kiếp con [E]người','Chợt một [F#7]chiều tóc trắng như [Bm]vôi','Lá [D]úa trên cao rụng [E7]đầy','Cho trăm [F#m]năm vào chết một [A]ngày']},
+    {type:'verse',label:'Đoạn 2',lines:['Mặt trời [Am]nào soi sáng tim tôi','Để tình [Dm]yêu xay mòn thành đá [Am]cuội','[E7]Xin úp mặt bùi [Dm]ngùi','Từng ngày [E7]qua mỏi ngóng tin [E7]vui','Cụm rừng [Am]nào lá xác xơ cây','Từ vực [Dm]sâu nghe lời mời đã [Am]dậy','[E7]Ôi cát bụi phận [Dm]này','Vết mực [E7]nào xóa bỏ không [Am]hay']}
+   ]},
+  {id:7,name:'Ru Em Từng Ngón Xuân Nồng',artist:'Trịnh Công Sơn',genre:'trinh',tone:'Dm',rhythm:'Slow',level:'Cơ bản ★★☆',
+   chords:['Dm','A7','C','Gm','F','Bb'],
+   verses:[
+    {type:'verse',label:'Đoạn 1',lines:['Ru mãi ngàn [Dm]năm [A7]dòng tóc em [Dm]buồn','Bàn tay em năm [C]ngón ru trên ngàn [A7]năm','Trên mùa lá [Gm]xanh ngón tay em [A7]gầy','Nên [Dm]mãi ru thêm ngàn [Dm]năm [A7]','Ru mãi ngàn [Dm]năm [A7]từng phiến môi [Dm]mềm','Bàn tay em trau [C]chuốt thêm cho ngàn [A7]năm','Cho vừa nhớ [Gm]nhung có em dỗi [A7]hờn','Nên mãi ru thêm ngàn [Dm]năm']},
+    {type:'chorus',label:'Điệp khúc',lines:['Thôi ngủ đi [F]em, mưa ru em [A7]ngủ','Tay em kết [Dm]nụ, nuôi trọn một [C]đời','Nuôi một đời [A7]người','Mùa xuân vừa [Dm]đến xin mãi ăn năn mà [F]thôi [A7]']},
+    {type:'verse',label:'Đoạn 2',lines:['Ru mãi ngàn [Dm]năm [A7]từng ngón xuân [Dm]nồng','Bàn tay em năm [C]ngón anh ru ngàn [A7]năm','Giận hờn sẽ [Gm]quên dáng em trôi [A7]dài','Trôi mãi trôi trên ngàn [Dm]năm [A7]','Ru mãi ngàn [Dm]năm [A7]vừa má em [Dm]hồng','Bàn tay đưa anh [C]đến quê hương vàng [A7]son','Vào trời lãng [Gm]quên tóc em như [A7]trời','Xưa đã qua đi ngàn [Dm]năm.']},
+    {type:'bridge',label:'Bridge',lines:['Còn lời ru [C]mãi [A7]vang vọng một [Gm]trời','Mùa xanh lá [A7]vội ru em miệt [Dm]mài','Còn lời ru [C]mãi còn lời ru [Bb]này','Ngàn năm ru [A7]hoài ngàn đời ru [Dm]ai.']}
+   ]},
+  {id:8,name:'Hạ Trắng',artist:'Trịnh Công Sơn',genre:'trinh',tone:'Am',rhythm:'Slow',level:'Cơ bản ★★☆',
+   chords:['Am','Dm','E7','C'],
+   verses:[
+    {type:'verse',label:'Đoạn 1',lines:['Gọi [Am]nắng, trên vai em gầy đường xa áo [Dm]bay','Nắng qua mắt buồn, lòng hoa bướm [E7]say','Lối em đi [Am]về trời không có [Dm]mây','Đường đi suốt [E7]mùa nắng lên thắp [C]đầy']},
+    {type:'verse',label:'Đoạn 2',lines:['Gọi [Am]nắng, cho cơn mê chiều nhiều hoa trắng [Dm]bay','Cho tay em dài gầy thêm nắng [E7]mai','Bước chân em [Am]về nào anh có [Dm]hay','Gọi em cho [E7]nắng chết trên sông [Am]dài.']},
+    {type:'chorus',label:'Điệp khúc',lines:['Thôi xin ơn [Dm]đời trong cơn mê này gọi mùa thu [Am]tới','Tôi đưa em [E7]về chân em bước nhẹ trời buồn gió [Am]cao','Đời xin có [Dm]nhau dài cho mãi sau nắng không gọi [Am]sầu','Áo xưa dù [C]nhàu cũng xin bạc [E7]đầu gọi mãi tên [Am]nhau']},
+    {type:'verse',label:'Đoạn 3',lines:['Gọi [Am]nắng, cho tóc em cài loài hoa nắng [Dm]rơi','Nắng đưa em về miền cao gió [E7]bay','Áo em bây [Am]giờ mờ xa nẻo [Dm]mây','Gọi tên em [E7]mãi suốt cơn mê [Am]này.']}
+   ]},
+  {id:9,name:'Tình Xa',artist:'Trịnh Công Sơn',genre:'trinh',tone:'Am',rhythm:'Slow',level:'Cơ bản ★★☆',
+   chords:['Am','Dm','G','Em7','F','E7','C','G7','A','A7','Bm'],
+   verses:[
+    {type:'verse',label:'Đoạn 1',lines:['Ngày tháng [Am]nào đã ra [Dm]đi khi ta còn ngồi [G]lại','Cuộc tình [Em7]nào đã ra [F]khơi ta còn [Em7]mãi nơi [Am]đây','Từng người [G]tình bỏ ta [C]đi như những dòng sông [Am]nhỏ','[E7]Ôi những dòng sông [Dm]nhỏ lời hẹn [E7]thề là những cơn [Am]mưa']},
+    {type:'bridge',label:'Bridge',lines:['Khi bước chân ta [Am]về đêm [Dm]khuya nhìn đường [G]phố','Thành phố hoang [Am]vu như một [G]lần qua cuộc [Am]tình','Làm sao em [F]biết đời sống buồn [E7]tênh, đôi [Am]khi ta lắng nghe ta [E7]']},
+    {type:'chorus',label:'Điệp khúc',lines:['Nghe sóng âm [A]u dội vào đời buốt giá','Hồn [A7]ta gió cát phù [D]du bay [Bm]về','Đôi [Am]khi trên mái tình ta nghe những giọt mưa','Tình réo tình âm [E7]thầm, sầu réo sầu bên bờ vực [Am]sâu']},
+    {type:'verse',label:'Đoạn 2',lines:['Còn thấy [Am]gì sáng mai [Dm]đây thôi ta còn bạn [G]bè','Giọt rượu [Em7]nào mãi chua [F]cay trong [Em7]tình vẫn u [Am]mê','Từ một [G]ngày tình [C]ta như núi rừng cúi [Am]đầu','[E7]Ôi tiếng buồn rơi [Dm]đều nhìn lại [E7]mình đời đã xanh [Am]rêu']}
+   ]},
+  {id:10,name:'Để Gió Cuốn Đi',artist:'Trịnh Công Sơn',genre:'trinh',tone:'F',rhythm:'Slow',level:'Cơ bản ★★☆',
+   chords:['F','Dm','Bb','Gm7','C','Am','Em','D','Cm','G','Gm'],
+   verses:[
+    {type:'verse',label:'Đoạn 1',lines:['[F]Sống trong đời sống cần [Dm]có một tấm lòng','Để [Bb]làm gì [Gm7]em biết [C]không?','Để [F]gió [Am]cuốn [D]đi, để [Am]gió [Cm]cuốn [F]đi','[F]Gió cuốn [Gm]đi cho mây [D]qua dòng [Am]sông','[Dm]Ngày vừa [Bb]lên hay đêm [Am]xuống mênh [Dm]mông','[F]Ôi trái [Gm]tim đang bay [D]theo thời [Am]gian','[Gm]Làm chiếc [Cm]bóng đi rao lời dối [F]gian','[F]Những khi chiều tới cần [Dm]có một tiếng cười','Để [Bb]ngậm ngùi [Gm7]theo lá [C]bay','Rồi [F]nước [Am]cuốn [Dm]trôi, rồi [Am]nước [Cm]cuốn [F]trôi']},
+    {type:'verse',label:'Đoạn 2',lines:['[F]Hãy nghiêng đời xuống nhìn [D]hết một mối tình','Chỉ [Bb]lặng nhìn [Gm7]không nói [C]năng','Để [F]buốt [Am]trái [D]tim, để [Am]buốt [Cm]trái [F]tim','[F]Trong trái [Gm]tim con chim [D]đau nằm [Am]yên','[Dm]Ngủ dài [Bb]lâu mang theo [Am]vết thương [Dm]sâu','[F]Một sớm [Gm]mai chim bay [D]đi triền [Am]miên','[Gm]Và tiếng [Cm]hót vang trong trời gió [F]lên','[F]Hãy yêu ngày tới dù [D]quá mệt kiếp người','Còn [Bb]cuộc đời [Gm]ta cứ [C]vui','Dù [F]vắng [Am]bóng [D]ai, dù [Am]vắng [Cm]bóng [F]ai...']}
+   ]},
+  {id:11,name:'Nơi Này Có Anh',artist:'Sơn Tùng M-TP',genre:'viet',tone:'C',rhythm:'Medium',level:'Cơ bản ★☆☆',
+   chords:['F','G','Am','Em','C'],
+   verses:[
+    {type:'verse',label:'Verse 1',lines:['Em là [F]ai từ đâu bước [G]đến nơi đây dịu [Am]dàng chân phương','Em là [F]ai tựa như ánh [G]nắng ban mai ngọt [C]ngào trong sương','Ngắm em [F]thật [G]lâu con [Am]tim anh yếu [Em]mềm','Đắm say [F]từ phút đó [G]từng giây trôi yêu [C]thêm.']},
+    {type:'verse',label:'Verse 2',lines:['Bao ngày [F]qua bình minh đánh [G]thức xua tan bộn [Am]bề nơi anh','Bao ngày [F]qua niềm thương nỗi [G]nhớ bay theo bầu [C]trời trong xanh','Liếc đôi [F]hàng [G]mi mong [Am]manh anh thẫn [Em]thờ','Muốn hôn [F]nhẹ mái tóc [G]bờ môi em anh [C]mơ.']},
+    {type:'chorus',label:'Điệp khúc',lines:['Cầm tay [F]anh dựa vai [G]anh kề bên [Am]anh nơi này có [Em]anh','Gió mang câu tình [F]ca ngàn ánh sao vụt [G]qua nhẹ ôm lấy [C]em','Cầm tay [F]anh dựa vai [G]anh kề bên [Am]anh nơi này có [Em]anh','Khép đôi mi thật [F]lâu nguyện mãi bên canh [G]nhau yêu say đắm như ngày [C]đầu.']},
+    {type:'bridge',label:'Bridge',lines:['Mùa xuân đến [F]bình [G]yên cho [Am]anh những giấc [Em]mơ','Hạ lưu giữ [F]ngày [G]mưa gió ngọt [C]ngào nên thơ','Mùa thu lá [F]vàng [G]rơi đông [Am]sang anh nhớ [Em]em','Tình yêu bé [F]nhỏ [G]xin dành [C]tặng riêng em.']}
+   ]},
+  {id:12,name:'Chạy Ngay Đi',artist:'Sơn Tùng M-TP',genre:'viet',tone:'Bb',rhythm:'Medium',level:'Trung bình ★★★',
+   chords:['Bb','Am','Dm','C','F','Gm'],
+   verses:[
+    {type:'verse',label:'Verse 1',lines:['Từng [Bb]phút cứ mãi trôi xa phai nhòa dần [C]ký ức giữa đôi ta','Từng [Dm]chút nỗi nhớ hôm qua đâu về lạc [Am]bước cứ thế phôi pha','Con [Bb]tim giờ không cùng chung đôi nhịp','Nụ cười lạnh [C]băng còn đâu nồng ấm thân quen','Vô tâm làm [Dm]ngơ thờ ơ tương lai ai ngờ','Quên đi mộng [Am]mơ ngày thơ tan theo sương mờ']},
+    {type:'verse',label:'Verse 2',lines:['Mưa lặng [Bb]thầm đường vắng chiều nay','In giọt [C]lệ nhòe khóe mắt sầu cay','Bao hẹn [Dm]thề tàn úa vụt bay','Trôi dạt [Am]chìm vào những giấc nồng say','Quay lưng chia hai [Bb]lối còn một mình anh thôi','Giả [C]dối bao trùm bỗng chốc lên ngôi','Trong đêm [Dm]tối bầu bạn cùng đơn côi','Suy tư anh kìm [Am]nén đã bốc cháy yêu thương trao em rồi']},
+    {type:'chorus',label:'Chorus',lines:['Chạy ngay [Bb]đi trước khi','[C]Mọi điều dần tồi tệ hơn','Chạy ngay [Dm]đi trước khi','[Am]Lòng hận thù cuộn từng cơn','Tựa giông [Bb]tố đến bên ghé thăm','Từ [C]nơi hố sâu tối tăm','[Dm]Chạy đi trước khi','[Am]Mọi điều dần tồi tệ hơn']},
+    {type:'chorus',label:'Kết',lines:['[Bb]Không còn ai cạnh bên em ngày mai','Tạm biệt một [C]tương lai ngang trái','[Dm]Không còn ai cạnh bên em ngày mai','Tạm biệt một [Am]tương lai ngang trái']}
+   ]},
+  {id:13,name:'Trốn Tìm',artist:'Đen Vâu ft. Linh Cáo',genre:'viet',tone:'Am',rhythm:'Medium',level:'Cơ bản ★★☆',
+   chords:['F','Dm','E7','Am'],
+   verses:[
+    {type:'chorus',label:'Điệp khúc',lines:['Có một cái cây trong một cái [F]vườn','Trên những tán cây nở rộ những [Dm]đóa hoa','Có hai đứa nhóc đang chơi trốn [E7]tìm','Tìm hoài tìm mãi nên quên lối về']},
+    {type:'verse',label:'Verse 1',lines:['Anh đi [Am]tìm thì em trốn, anh đi trốn em không tìm','Lòng em không gợn sóng, cuối cùng anh mất công chìm','[F]Nếu mà có cây búa anh sẽ nện cho bõ công','Vì nhớ nhung đặc quánh giờ nó khô thành bê tông','[Dm]Chúng ta rồi sẽ có, có những chuyến đi dài','Phải tự học lấy mọi thứ vì trong tình trường làm biếng ghi bài','[E7]Câu chuyện của chúng ta bỗng có thêm một miếng bi hài','[Am]Phía xa thành phố người ta đã bật đèn đường','Hương xưa quen làm anh thấy thật thèm thuồng','[F]Nỗi buồn vàng rực cứ như là chứa đồng thau','[Dm]Hé cửa sổ ra mà xem có một chàng thi sĩ đứng ở ngay nhà em','Viết nhạc tình mát [E7]ngọt tựa như cây cà rem','Anh ta sẽ đứng ở nơi đây cả đêm']},
+    {type:'verse',label:'Verse 2',lines:['Hồi [Am]đó anh rụt rè như đám cây mắc cỡ','Gần em làm anh hồi hộp tới mức gây tắc thở','Ta đều không [F]biết có điều gì sau đám mây sắp nở','Trò chơi trốn tìm ngày đó, sau này đầy trắc trở','Ta săn [Dm]bắn những khát vọng và hái lượm những giấc mơ','Ta gieo trồng cây ước mộng, thứ mà lấy đi nhiều thì giờ','[E7]Người đi tìm cái người đi trốn, người đi trốn cái người đi tìm','Tình yêu từ những ngày xưa [Am]đã ngủ quên dưới tán cây im lìm']},
+    {type:'bridge',label:'Bridge',lines:['Niềm cô đơn của những người trưởng [E7]thành','Là khi muốn trốn nhưng không ai [Am]tìm','Nhiều khi ta muốn ta được bé [E7]lại','Để khi đi trốn có người đi [Am]tìm']}
+   ]},
+  {id:14,name:'Có Chắc Yêu Là Đây',artist:'Sơn Tùng M-TP',genre:'viet',tone:'Bb',rhythm:'Medium',level:'Cơ bản ★★☆',
+   chords:['Bb','Am','Dm','C','F'],
+   verses:[
+    {type:'verse',label:'Verse 1',lines:['Thấp thoáng ánh [Bb]mắt đôi môi mang theo hương mê say','Em cho anh tan [Am]trong miên man quên luôn đi đêm [Dm]ngày','Chạm nhẹ vội vàng [Bb]hai ba giây nhưng con tim đâu hay','Bối rối khẽ lên [Am]ngôi yêu thương đong đầy thật [Dm]đầy']},
+    {type:'verse',label:'Verse 2',lines:['[Bb]Có câu ca trong gió hát ngân nga ru trời mây','Nhẹ nhàng [Am]đón ban mai ngang qua trao nụ [Dm]cười','[Bb]Nắng đua chen khoe sắc vui đùa giữa muôn ngàn hoa','Dịu dàng [Am]đến nhân gian âu yếm tâm hồn [Dm]người','Đừng thờ ơ xin [C]hãy lắng nghe và [F]giúp anh','Trả lời [Bb]đôi điều còn băn [C]khoăn.']},
+    {type:'chorus',label:'Chorus',lines:['Có chắc yêu là [Bb]đây... đây... đây','Có chắc yêu là [Am]đây... [Dm]đây','Có chắc yêu là [Bb]đây... đây... đây','Có chắc yêu là [Am]đây... [Dm]đây','Em lang thang cả ngày [Bb]trong tâm trí','Đi không ngừng cả ngày [Am]trong tâm trí [Dm]','Si mê thêm cuồng [C]quay [F]']},
+    {type:'bridge',label:'Bridge',lines:['[Bb]Chắc gì nữa mà chắc','Sáng thì nhớ đêm [Am]trắng tương tư còn không yêu là [Dm]gì?','Nhanh chân chạy mua một bó [Bb]hoa thêm luôn một món quà','Khuôn mặt tươi cười [Am]lên vô tư gạt đi âu lo mạnh mẽ [Dm]nha']}
+   ]},
+  {id:15,name:'Sau Tất Cả',artist:'Erik',genre:'viet',tone:'C',rhythm:'Slow',level:'Cơ bản ★☆☆',
+   chords:['C','Am','F','G'],
+   verses:[
+    {type:'verse',label:'Verse 1',lines:['Sau tất [C]cả những gì [Am]ta đã trải qua','Anh vẫn [F]yêu em dù [G]biết chẳng còn [C]gì','Sau tất [C]cả nụ cười [Am]và những giọt nước mắt','Anh vẫn [F]nhớ về em [G]']},
+    {type:'chorus',label:'Chorus',lines:['Sau tất [C]cả anh vẫn [Am]yêu em','Dù biết [F]rằng em đã [G]bỏ anh đi [C]','Sau tất [Am]cả những ký [F]niệm chúng ta','Anh vẫn [C]giữ trong tim [G]mãi mãi [C]']},
+    {type:'chorus',label:'Kết',lines:['Sau tất [F]cả [G]','Anh vẫn [Am]yêu [F]em [C]','Sau tất [G]cả [C]']}
+   ]},
+  {id:16,name:'Xin Đừng Trách Anh',artist:'Phượng Linh',genre:'viet',tone:'C',rhythm:'Slow',level:'Cơ bản ★★☆',
+   chords:['C','F','Dm','G7'],
+   verses:[
+    {type:'verse',label:'Đoạn 1',lines:['Trọn tình đầu tiên [C]dành cho em đó','Dù lạc ngàn phương đời trai sương [F]gió','Đừng [C]trách linh chiến thường hay [F]đi','Không có nước mắt sầu chia [C]ly']},
+    {type:'verse',label:'Đoạn 2',lines:['Nhạn lạc bầy kêu sầu đêm canh [C]vắng','Lòng người nào quên tình yêu tổ [F]ấm','Đừng [C]trách lính chiến thường hay [F]quên','Cho nước mắt ấy càng tuôn [C]thêm']},
+    {type:'chorus',label:'Điệp khúc',lines:['Xin em tin [F]không dối lừa em','Xin em tin [C]nơi mối tình anh','Chớ nhốt trong [F]vòng tay ân ái','Em ơi tình yêu [Dm]đó chóng phai hương ái [G7]ân [C]']},
+    {type:'chorus',label:'Kết',lines:['Xin em tin [F]không dối lừa em','Tình yêu [Dm]mãi trong [G7]lòng ta [C]']}
+   ]},
+  {id:17,name:'Mùa Thu Lá Bay',artist:'Lam Phương',genre:'viet',tone:'G',rhythm:'Slow',level:'Cơ bản ★★☆',
+   chords:['G','Em','C','D','Am'],
+   verses:[
+    {type:'verse',label:'Đoạn 1',lines:['Mùa thu [G]lá vàng [Em]rơi','Nhớ ai [C]năm xưa [D]ơi','Tình yêu [G]đầu đời [Em]','Bây giờ [C]còn đâu [D]ai [G]']},
+    {type:'chorus',label:'Điệp khúc',lines:['Lá [Em]bay, lá [Am]bay','Như tình [D]ta bay [G]đi mãi','Thu [Em]sang, thu [Am]sang','Lòng ta [D]thêm vấn [G]vương']},
+    {type:'chorus',label:'Kết',lines:['Mùa thu [G]lá [Em]bay [C]','Nhớ em [D]nhớ [G]ai [Em]','Tình [C]xưa bao [D]giờ [G]quên']}
+   ]},
+  {id:18,name:'Căn Nhà Ngoại Ô',artist:'Lam Phương',genre:'viet',tone:'C',rhythm:'Medium',level:'Cơ bản ★☆☆',
+   chords:['C','F','G','Am'],
+   verses:[
+    {type:'verse',label:'Đoạn 1',lines:['Căn nhà [C]nhỏ ngoại ô','Đêm đêm [F]nghe tiếng gió','Anh về [C]tìm yêu thương','Bên người [G]con gái thơm [C]']},
+    {type:'chorus',label:'Điệp khúc',lines:['Ôi [Am]căn nhà yêu [F]dấu','Nơi [C]ta sống hạnh [G]phúc','Bên [Am]nhau qua tháng [F]năm','Tình [C]ta mãi không [G]phai [C]']}
+   ]},
+  {id:19,name:'Người Ngoài Phố',artist:'Y Vân',genre:'viet',tone:'Am',rhythm:'Slow',level:'Cơ bản ★★☆',
+   chords:['Am','F','E','Dm','G'],
+   verses:[
+    {type:'verse',label:'Đoạn 1',lines:['Người ngoài [Am]phố bước đi','Chân không [Dm]biết về đâu','Mưa rơi [E]ướt vai gầy','Một mình [Am]trong đêm thâu']},
+    {type:'chorus',label:'Điệp khúc',lines:['Ôi người [F]ngoài phố ơi','Có ai [G]hiểu lòng tôi','Một mình [Am]bước trong mưa','Tìm người [E]tôi yêu [Am]']}
+   ]},
+  {id:20,name:'Đêm Đông',artist:'Nguyễn Văn Thương',genre:'viet',tone:'Am',rhythm:'Slow',level:'Cơ bản ★★☆',
+   chords:['Am','E','Dm','F','G'],
+   verses:[
+    {type:'verse',label:'Đoạn 1',lines:['Chiều [Am]chưa đi màn đêm [E]rơi xuống','Đâu đây lời ru [Dm]than van','Không gian [F]bỗng rét căm [G]căm','Bước chân ai [Am]về đêm [E]đông [Am]']},
+    {type:'chorus',label:'Điệp khúc',lines:['Đêm đông [Dm]xa trông','Cố [E]hương buồn lòng [Am]','Đêm đông [F]bóng thầm','Nhớ [G]ai bơ vơ [Am]']}
+   ]},
+  {id:21,name:'Shape of You',artist:'Ed Sheeran',genre:'quocte',tone:'C#m',rhythm:'Medium',level:'Cơ bản ★★☆',
+   chords:['C#m','A','E','B'],
+   verses:[
+    {type:'verse',label:'Verse 1',lines:['The club [C#m]is not the best place to find a [A]lover','So the bar is [E]where I go [B]','Me and my friends at the table [C#m]doing shots','Drinking fast and then we [A]talk slow [E][B]']},
+    {type:'chorus',label:'Chorus',lines:['Im in [C#m]love with the shape of [A]you','We push and [E]pull like a magnet [B]do','Although my [C#m]heart is falling [A]too','Im in [E]love with your body [B]']}
+   ]},
+  {id:22,name:'Let Her Go',artist:'Passenger',genre:'quocte',tone:'G',rhythm:'Medium',level:'Cơ bản ★★☆',
+   chords:['G','D','Em','C'],
+   verses:[
+    {type:'verse',label:'Verse 1',lines:['Well you only [G]need the light when its burning [D]low','Only miss the [Em]sun when it starts to snow [C]','Only know you [G]love her when you let her [D]go']},
+    {type:'chorus',label:'Chorus',lines:['And you let her [G]go [D]','Staring at the [Em]bottom of your glass [C]','Hoping one day [G]youll make a dream last [D]','But dreams come [Em]slow and they go so fast [C]']}
+   ]},
+  {id:23,name:'Someone Like You',artist:'Adele',genre:'quocte',tone:'A',rhythm:'Slow',level:'Cơ bản ★★☆',
+   chords:['A','C#m','F#m','D','E'],
+   verses:[
+    {type:'verse',label:'Verse 1',lines:['I heard [A]that youre settled down [C#m]','That you [F#m]found a girl and youre married now [D]']},
+    {type:'chorus',label:'Chorus',lines:['Never mind [A]Ill find someone like [E]you [F#m]','I wish nothing [D]but the best for you [A]too']}
+   ]},
+  {id:24,name:'Perfect',artist:'Ed Sheeran',genre:'quocte',tone:'G',rhythm:'Slow',level:'Cơ bản ★☆☆',
+   chords:['G','Em','C','D'],
+   verses:[
+    {type:'verse',label:'Verse 1',lines:['I found a [G]love for me [Em]','Darling just [C]dive right in [D]','And follow my [G]lead [Em]']},
+    {type:'chorus',label:'Chorus',lines:['Baby Im [G]dancing in the dark [Em]','With you between [C]my arms [D]','Darling you look [Em]perfect tonight [C][D]']}
+   ]},
+  {id:25,name:'Counting Stars',artist:'OneRepublic',genre:'quocte',tone:'Am',rhythm:'Medium',level:'Cơ bản ★★☆',
+   chords:['Am','C','G','F'],
+   verses:[
+    {type:'verse',label:'Verse 1',lines:['Lately Ive [Am]been Ive been losing sleep','Dreaming about [C]the things that we could be','Said no more [F]counting dollars well be counting stars']},
+    {type:'chorus',label:'Chorus',lines:['Take that money [Am]watch it burn','Sink in the [C]river the lessons Ive learned','Take that money [G]watch it burn','Sink in the [F]river the lessons Ive learned']}
+   ]},
+  {id:26,name:'Wonderwall',artist:'Oasis',genre:'quocte',tone:'Em',rhythm:'Medium',level:'Cơ bản ★★☆',
+   chords:['Em','G','D','A'],
+   verses:[
+    {type:'verse',label:'Verse 1',lines:['Today is gonna be the day [Em][G]','By now you shouldve somehow realized [D][A]']},
+    {type:'chorus',label:'Chorus',lines:['Because maybe [Em]youre gonna be the one that saves [G]me [D][A]','And after all [Em]youre my wonder [G]wall [D][A]']}
+   ]},
+  {id:27,name:'Stay With Me',artist:'Sam Smith',genre:'quocte',tone:'Am',rhythm:'Slow',level:'Cơ bản ★☆☆',
+   chords:['Am','F','C','G'],
+   verses:[
+    {type:'verse',label:'Verse 1',lines:['Guess its true Im not good at a one night [Am]stand [F]','But I still need love cause Im just a [C]man [G]']},
+    {type:'chorus',label:'Chorus',lines:['Oh wont you [Am]stay with [F]me [C][G]','Cause youre [Am]all I [F]need [C][G]']}
+   ]},
+  {id:28,name:'Hotel California',artist:'Eagles',genre:'quocte',tone:'Am',rhythm:'Medium',level:'Trung bình ★★★',
+   chords:['Am','E','G','D','F','C','Dm'],
+   verses:[
+    {type:'verse',label:'Verse 1',lines:['On a dark desert [Am]highway cool wind in my [E]hair','Warm smell of colitas [G]rising up through the [D]air','Up ahead in the [F]distance I saw a shimmering [C]light','My head grew heavy and [Dm]my sight grew dim [E]']},
+    {type:'chorus',label:'Chorus',lines:['Welcome to the [F]Hotel California','Such a lovely [C]place such a lovely [E]face','Any time of [Dm]year you can find it [E]here [Am]']}
+   ]},
+  {id:29,name:'Blowin in the Wind',artist:'Bob Dylan',genre:'quocte',tone:'G',rhythm:'Slow',level:'Cơ bản ★☆☆',
+   chords:['G','C','D'],
+   verses:[
+    {type:'verse',label:'Verse 1',lines:['How many [G]roads must a man walk [C]down [G]','Before you [G]call him a [D]man']},
+    {type:'chorus',label:'Chorus',lines:['The answer [C]my friend is [G]blowin in the [D]wind','The answer is [G]blowin in the [C]wind [G]']}
+   ]},
+  {id:30,name:'Knockin on Heavens Door',artist:'Bob Dylan',genre:'quocte',tone:'G',rhythm:'Slow',level:'Cơ bản ★☆☆',
+   chords:['G','D','Am','C'],
+   verses:[
+    {type:'verse',label:'Verse 1',lines:['Mama take this [G]badge off of [D]me [Am]','I cant use it [G]anymore [D][C]']},
+    {type:'chorus',label:'Chorus',lines:['Knock knock [G]knockin on heavens [D]door [Am]','Knock knock [G]knockin on heavens [D]door [C]']}
+   ]}
+];
+
+let currentSong = null;
+let transposeSteps = 0;
+let activeGenre = 'all';
+
+function renderSongs(songs){
+  const grid = document.getElementById('songsGrid');
+  const noRes = document.getElementById('noResults');
+  const badge = document.getElementById('countBadge');
+  if(!songs.length){grid.innerHTML='';noRes.style.display='block';badge.textContent='0 bài';return}
+  noRes.style.display='none';
+  badge.textContent=songs.length+' bài';
+  grid.innerHTML=songs.map(s=>`
+    <div class="song-card" onclick="openSong(${s.id})">
+      <div class="song-genre">${s.genre==='trinh'?'Nhạc Trịnh':s.genre==='viet'?'Nhạc Việt':'Quốc tế'}</div>
+      <div class="song-name">${s.name}</div>
+      <div class="song-artist">${s.artist}</div>
+      <div class="song-chords">${s.chords.map(c=>`<span class="chord-pill">${c}</span>`).join('')}</div>
+      <div class="song-meta">
+        <span class="song-meta-item">Tone: <span>${s.tone}</span></span>
+        <span class="song-meta-item">Nhịp: <span>${s.rhythm}</span></span>
+        <span class="song-meta-item">${s.level}</span>
+      </div>
+    </div>`).join('');
+}
+
+function filterSongs(){
+  const q=document.getElementById('searchInput').value.toLowerCase().trim();
+  let res=SONGS.filter(s=>activeGenre==='all'||s.genre===activeGenre);
+  if(q)res=res.filter(s=>s.name.toLowerCase().includes(q)||s.artist.toLowerCase().includes(q));
+  renderSongs(res);
+}
+
+function filterByGenre(genre,el){
+  activeGenre=genre;
+  document.querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  filterSongs();
+}
+
+function drawChord(name){
+  var enharmonic = {
+    'Db':'C#','Eb':'D#','Fb':'E','Gb':'F#','Ab':'G#','Bb':'A#',
+    'Dbm':'C#m','Ebm':'D#m','Gbm':'F#m','Abm':'G#m','Bbm':'A#m',
+    'Db7':'C#7','Eb7':'D#7','Gb7':'F#7','Ab7':'G#7','Bb7':'A#7'
+  };
+  var cn = enharmonic[name] || name;
+  var encoded = encodeURIComponent(cn);
+  var imgUrl = 'https://chordpic.com/chord/' + encoded + '.svg';
+  var html = '<div class="chord-diag">';
+  html += '<div class="chord-diag-name">' + name + '</div>';
+  html += '<img src="' + imgUrl + '" alt="' + cn + '" width="60" height="72" style="display:block;margin:0 auto;">';
+  html += '</div>';
+  return html;
+}
+
+function getTransposedChords(song){
+  if(transposeSteps===0)return song.chords;
+  return song.chords.map(c=>transposeChord(c,transposeSteps));
+}
+
+function getTransposedLine(line){
+  if(transposeSteps===0)return line;
+  return line.replace(/\[([^\]]+)\]/g,(m,c)=>`[${transposeChord(c,transposeSteps)}]`);
+}
+
+function renderLyrics(song){
+  return song.verses.map(v=>{
+    const isChorus=v.type==='chorus';
+    const lines=v.lines.map(l=>{
+      const transposed=getTransposedLine(l);
+      const html=transposed.replace(/\[([^\]]+)\]/g,'<span class="ch">[$1]</span>');
+      return`<div class="lyric-line">${html}</div>`;
+    }).join('');
+    return`<div class="verse"><div class="verse-head${isChorus?' chorus':''}">${v.label}</div>${lines}</div>`;
+  }).join('');
+}
+
+function openSong(id){
+  currentSong=SONGS.find(s=>s.id===id);
+  transposeSteps=0;
+  if(!currentSong)return;
+  document.getElementById('mGenre').textContent=currentSong.genre==='trinh'?'Nhạc Trịnh':currentSong.genre==='viet'?'Nhạc Việt':'Quốc tế';
+  document.getElementById('mTitle').textContent=currentSong.name;
+  document.getElementById('mArtist').textContent=currentSong.artist;
+  document.getElementById('mTone').textContent='Tone: '+currentSong.tone;
+  document.getElementById('mRhythm').textContent=currentSong.rhythm;
+  document.getElementById('mLevel').textContent=currentSong.level;
+  document.getElementById('transposeKey').textContent=currentSong.tone;
+  document.getElementById('mChords').innerHTML=currentSong.chords.map(c=>drawChord(c)).join('');
+  document.getElementById('mLyrics').innerHTML=renderLyrics(currentSong);
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function transpose(dir){
+  transposeSteps=(transposeSteps+dir+12)%12;
+  const newKey=transposeChord(currentSong.tone,transposeSteps);
+  document.getElementById('transposeKey').textContent=newKey;
+  const newChords=getTransposedChords(currentSong);
+  document.getElementById('mChords').innerHTML=newChords.map(c=>drawChord(c)).join('');
+  document.getElementById('mLyrics').innerHTML=renderLyrics(currentSong);
+}
+
+function resetTranspose(){
+  transposeSteps=0;
+  document.getElementById('transposeKey').textContent=currentSong.tone;
+  document.getElementById('mChords').innerHTML=currentSong.chords.map(c=>drawChord(c)).join('');
+  document.getElementById('mLyrics').innerHTML=renderLyrics(currentSong);
+}
+
+function closeModal(e){if(e.target===document.getElementById('modalOverlay'))closeModalBtn()}
+function closeModalBtn(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow=''}
+
+renderSongs(SONGS);
+</script>
+</body>
+</html>
