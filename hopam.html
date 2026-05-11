@@ -181,52 +181,145 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 48px;display:fl
 
 <script>
 const CHORD_SHAPES = {
-  E7:{strings:[0,2,0,1,0,0],fingers:[0,2,0,1,0,0]},
-  A7:{strings:[-1,0,2,0,2,0],fingers:[0,0,2,0,3,0]},
-  Dm7:{strings:[-1,-1,0,2,1,1],fingers:[0,0,0,2,1,1]},
-  Am7:{strings:[0,0,2,0,1,0],fingers:[0,0,2,0,1,0]},
-  Em7:{strings:[0,2,2,0,3,0],fingers:[0,2,3,0,4,0]},
-  Gm7:{strings:[3,5,5,3,3,3],fingers:[1,3,4,1,1,1],barre:true},
-  Cm7:{strings:[-1,3,5,3,4,3],fingers:[0,1,3,1,2,1],barre:true},
-  Bm:{strings:[-1,2,4,4,3,2],fingers:[0,1,3,4,2,1],barre:true},
-  Bb:{strings:[-1,1,3,3,3,1],fingers:[0,1,2,3,4,1],barre:true},
-  'F#m':{strings:[2,4,4,2,2,2],fingers:[1,3,4,1,1,1],barre:true},
-  'F#7':{strings:[2,4,2,3,2,2],fingers:[1,3,1,2,1,1],barre:true},
-  'C#m':{strings:[-1,4,6,6,5,4],fingers:[0,1,3,4,2,1],barre:true},
+  // === MAJOR ===
+  C:{strings:[-1,3,2,0,1,0],fingers:[0,3,2,0,1,0]},
   'C#':{strings:[-1,4,6,6,6,4],fingers:[0,1,3,4,4,1],barre:true},
-  'F#':{strings:[2,4,4,3,2,2],fingers:[1,3,4,2,1,1],barre:true},
-  Gm:{strings:[3,5,5,3,3,3],fingers:[1,3,4,1,1,1],barre:true},
-  B7:{strings:[-1,2,1,2,0,2],fingers:[0,2,1,3,0,4]},
-  G7:{strings:[3,2,0,0,0,1],fingers:[3,2,0,0,0,1]},
-  Cmaj7:{strings:[-1,3,2,0,0,0],fingers:[0,3,2,0,0,0]},
-  Fmaj7:{strings:[-1,-1,3,2,1,0],fingers:[0,0,3,2,1,0]},
-  Dsus2:{strings:[-1,-1,0,2,3,0],fingers:[0,0,0,1,3,0]},
-  Gsus4:{strings:[3,3,0,0,1,3],fingers:[2,3,0,0,1,4]},
-  'Bb7':{strings:[-1,1,3,1,3,1],fingers:[0,1,3,1,4,1],barre:true},
-  Ebm:{strings:[-1,-1,5,3,4,3],fingers:[0,0,3,1,2,1]},
-  Abm:{strings:[4,6,6,4,4,4],fingers:[1,3,4,1,1,1],barre:true},
-  B:{strings:[-1,2,4,4,4,2],fingers:[0,1,3,4,4,1],barre:true},
-  'G#':{strings:[4,6,6,5,4,4],fingers:[1,3,4,2,1,1],barre:true},
-  Am:{strings:[0,0,2,2,1,0],fingers:[0,0,2,3,1,0]},
-  Dm:{strings:[-1,0,0,2,3,1],fingers:[0,0,0,2,3,1]},
+  Db:{strings:[-1,4,6,6,6,4],fingers:[0,1,3,4,4,1],barre:true},
+  D:{strings:[-1,-1,0,2,3,2],fingers:[0,0,0,1,3,2]},
+  'D#':{strings:[-1,-1,1,3,4,3],fingers:[0,0,1,3,4,2]},
+  Eb:{strings:[-1,-1,1,3,4,3],fingers:[0,0,1,3,4,2]},
   E:{strings:[0,2,2,1,0,0],fingers:[0,2,3,1,0,0]},
   F:{strings:[1,1,2,3,3,1],fingers:[1,1,2,3,4,1],barre:true},
+  'F#':{strings:[2,4,4,3,2,2],fingers:[1,3,4,2,1,1],barre:true},
+  Gb:{strings:[2,4,4,3,2,2],fingers:[1,3,4,2,1,1],barre:true},
   G:{strings:[3,2,0,0,0,3],fingers:[3,2,0,0,0,4]},
-  C:{strings:[-1,3,2,0,1,0],fingers:[0,3,2,0,1,0]},
-  Am7:{strings:[0,0,2,0,1,0],fingers:[0,0,2,0,1,0]},
-  Em:{strings:[0,2,2,0,0,0],fingers:[0,2,3,0,0,0]},
-  D:{strings:[-1,-1,0,2,3,2],fingers:[0,0,0,1,3,2]},
-  Bm:{strings:[-1,2,4,4,3,2],fingers:[0,1,3,4,2,1],barre:true},
+  'G#':{strings:[4,6,6,5,4,4],fingers:[1,3,4,2,1,1],barre:true},
+  Ab:{strings:[4,6,6,5,4,4],fingers:[1,3,4,2,1,1],barre:true},
   A:{strings:[-1,0,2,2,2,0],fingers:[0,0,1,2,3,0]},
-  B7:{strings:[-1,2,1,2,0,2],fingers:[0,2,1,3,0,4]},
-  G7:{strings:[3,2,0,0,0,1],fingers:[3,2,0,0,0,1]},
-  Cmaj7:{strings:[-1,3,2,0,0,0],fingers:[0,3,2,0,0,0]},
-  Fmaj7:{strings:[-1,-1,3,2,1,0],fingers:[0,0,3,2,1,0]},
-  Dsus2:{strings:[-1,-1,0,2,3,0],fingers:[0,0,0,1,3,0]},
-  E7:{strings:[0,2,0,1,0,0],fingers:[0,2,0,1,0,0]},
-  'C#m':{strings:[-1,4,6,6,5,4],fingers:[0,1,3,4,2,1],barre:true},
   'A#':{strings:[-1,1,3,3,3,1],fingers:[0,1,2,3,4,1],barre:true},
+  Bb:{strings:[-1,1,3,3,3,1],fingers:[0,1,2,3,4,1],barre:true},
+  B:{strings:[-1,2,4,4,4,2],fingers:[0,1,3,4,4,1],barre:true},
+
+  // === MINOR ===
+  Cm:{strings:[-1,3,5,5,4,3],fingers:[0,1,3,4,2,1],barre:true},
+  'C#m':{strings:[-1,4,6,6,5,4],fingers:[0,1,3,4,2,1],barre:true},
+  Dbm:{strings:[-1,4,6,6,5,4],fingers:[0,1,3,4,2,1],barre:true},
+  Dm:{strings:[-1,-1,0,2,3,1],fingers:[0,0,0,2,3,1]},
+  'D#m':{strings:[-1,-1,1,3,4,2],fingers:[0,0,1,3,4,2]},
+  Ebm:{strings:[-1,-1,1,3,4,2],fingers:[0,0,1,3,4,2]},
+  Em:{strings:[0,2,2,0,0,0],fingers:[0,2,3,0,0,0]},
+  Fm:{strings:[1,3,3,1,1,1],fingers:[1,3,4,1,1,1],barre:true},
   'F#m':{strings:[2,4,4,2,2,2],fingers:[1,3,4,1,1,1],barre:true},
+  Gbm:{strings:[2,4,4,2,2,2],fingers:[1,3,4,1,1,1],barre:true},
+  Gm:{strings:[3,5,5,3,3,3],fingers:[1,3,4,1,1,1],barre:true},
+  'G#m':{strings:[4,6,6,4,4,4],fingers:[1,3,4,1,1,1],barre:true},
+  Abm:{strings:[4,6,6,4,4,4],fingers:[1,3,4,1,1,1],barre:true},
+  Am:{strings:[0,0,2,2,1,0],fingers:[0,0,2,3,1,0]},
+  'A#m':{strings:[1,3,3,1,1,1],fingers:[1,3,4,1,1,1],barre:true},
+  Bbm:{strings:[1,3,3,1,1,1],fingers:[1,3,4,1,1,1],barre:true},
+  Bm:{strings:[-1,2,4,4,3,2],fingers:[0,1,3,4,2,1],barre:true},
+
+  // === DOMINANT 7 ===
+  C7:{strings:[-1,3,2,3,1,0],fingers:[0,3,2,4,1,0]},
+  'C#7':{strings:[-1,4,6,4,6,4],fingers:[0,1,3,1,4,1],barre:true},
+  Db7:{strings:[-1,4,6,4,6,4],fingers:[0,1,3,1,4,1],barre:true},
+  D7:{strings:[-1,-1,0,2,1,2],fingers:[0,0,0,2,1,3]},
+  'D#7':{strings:[-1,-1,1,3,2,3],fingers:[0,0,1,3,2,4]},
+  Eb7:{strings:[-1,-1,1,3,2,3],fingers:[0,0,1,3,2,4]},
+  E7:{strings:[0,2,0,1,0,0],fingers:[0,2,0,1,0,0]},
+  F7:{strings:[1,1,2,1,3,1],fingers:[1,1,2,1,4,1],barre:true},
+  'F#7':{strings:[2,4,2,3,2,2],fingers:[1,3,1,2,1,1],barre:true},
+  Gb7:{strings:[2,4,2,3,2,2],fingers:[1,3,1,2,1,1],barre:true},
+  G7:{strings:[3,2,0,0,0,1],fingers:[3,2,0,0,0,1]},
+  'G#7':{strings:[4,6,4,5,4,4],fingers:[1,3,1,2,1,1],barre:true},
+  Ab7:{strings:[4,6,4,5,4,4],fingers:[1,3,1,2,1,1],barre:true},
+  A7:{strings:[-1,0,2,0,2,0],fingers:[0,0,2,0,3,0]},
+  'A#7':{strings:[-1,1,3,1,3,1],fingers:[0,1,3,1,4,1],barre:true},
+  Bb7:{strings:[-1,1,3,1,3,1],fingers:[0,1,3,1,4,1],barre:true},
+  B7:{strings:[-1,2,1,2,0,2],fingers:[0,2,1,3,0,4]},
+
+  // === MINOR 7 ===
+  Cm7:{strings:[-1,3,5,3,4,3],fingers:[0,1,3,1,2,1],barre:true},
+  'C#m7':{strings:[-1,4,6,4,5,4],fingers:[0,1,3,1,2,1],barre:true},
+  Dbm7:{strings:[-1,4,6,4,5,4],fingers:[0,1,3,1,2,1],barre:true},
+  Dm7:{strings:[-1,-1,0,2,1,1],fingers:[0,0,0,2,1,1]},
+  'D#m7':{strings:[-1,-1,1,3,2,2],fingers:[0,0,1,4,2,3]},
+  Ebm7:{strings:[-1,-1,1,3,2,2],fingers:[0,0,1,4,2,3]},
+  Em7:{strings:[0,2,0,0,0,0],fingers:[0,2,0,0,0,0]},
+  Fm7:{strings:[1,3,1,1,1,1],fingers:[1,3,1,1,1,1],barre:true},
+  'F#m7':{strings:[2,4,2,2,2,2],fingers:[1,3,1,1,1,1],barre:true},
+  Gbm7:{strings:[2,4,2,2,2,2],fingers:[1,3,1,1,1,1],barre:true},
+  Gm7:{strings:[3,5,3,3,3,3],fingers:[1,3,1,1,1,1],barre:true},
+  'G#m7':{strings:[4,6,4,4,4,4],fingers:[1,3,1,1,1,1],barre:true},
+  Abm7:{strings:[4,6,4,4,4,4],fingers:[1,3,1,1,1,1],barre:true},
+  Am7:{strings:[0,0,2,0,1,0],fingers:[0,0,2,0,1,0]},
+  'A#m7':{strings:[1,3,1,1,1,1],fingers:[1,3,1,1,1,1],barre:true},
+  Bbm7:{strings:[1,3,1,1,1,1],fingers:[1,3,1,1,1,1],barre:true},
+  Bm7:{strings:[-1,2,4,2,3,2],fingers:[0,1,3,1,2,1],barre:true},
+
+  // === MAJOR 7 ===
+  Cmaj7:{strings:[-1,3,2,0,0,0],fingers:[0,3,2,0,0,0]},
+  'C#maj7':{strings:[-1,4,6,5,6,4],fingers:[0,1,3,2,4,1],barre:true},
+  Dmaj7:{strings:[-1,-1,0,2,2,2],fingers:[0,0,0,1,1,1]},
+  'D#maj7':{strings:[-1,-1,1,3,3,3],fingers:[0,0,1,2,2,2]},
+  Ebmaj7:{strings:[-1,-1,1,3,3,3],fingers:[0,0,1,2,2,2]},
+  Emaj7:{strings:[0,2,1,1,0,0],fingers:[0,3,1,2,0,0]},
+  Fmaj7:{strings:[-1,-1,3,2,1,0],fingers:[0,0,3,2,1,0]},
+  'F#maj7':{strings:[2,4,3,3,2,2],fingers:[1,4,2,3,1,1],barre:true},
+  Gmaj7:{strings:[3,2,0,0,0,2],fingers:[3,2,0,0,0,1]},
+  'G#maj7':{strings:[4,6,5,5,4,4],fingers:[1,4,2,3,1,1],barre:true},
+  Abmaj7:{strings:[4,6,5,5,4,4],fingers:[1,4,2,3,1,1],barre:true},
+  Amaj7:{strings:[-1,0,2,1,2,0],fingers:[0,0,2,1,3,0]},
+  'A#maj7':{strings:[-1,1,3,2,3,1],fingers:[0,1,3,2,4,1],barre:true},
+  Bbmaj7:{strings:[-1,1,3,2,3,1],fingers:[0,1,3,2,4,1],barre:true},
+  Bmaj7:{strings:[-1,2,4,3,4,2],fingers:[0,1,3,2,4,1],barre:true},
+
+  // === SUS2 ===
+  Csus2:{strings:[-1,3,0,0,1,3],fingers:[0,2,0,0,1,3]},
+  Dsus2:{strings:[-1,-1,0,2,3,0],fingers:[0,0,0,1,3,0]},
+  Esus2:{strings:[0,2,4,4,0,0],fingers:[0,1,3,4,0,0]},
+  Gsus2:{strings:[3,0,0,0,0,3],fingers:[2,0,0,0,0,3]},
+  Asus2:{strings:[-1,0,2,2,0,0],fingers:[0,0,1,2,0,0]},
+  Bsus2:{strings:[-1,2,4,4,2,2],fingers:[0,1,3,4,1,1],barre:true},
+
+  // === SUS4 ===
+  Csus4:{strings:[-1,3,3,0,1,1],fingers:[0,3,4,0,1,1]},
+  Dsus4:{strings:[-1,-1,0,2,3,3],fingers:[0,0,0,1,2,3]},
+  Esus4:{strings:[0,2,2,2,0,0],fingers:[0,2,3,4,0,0]},
+  Fsus4:{strings:[1,1,3,3,1,1],fingers:[1,1,3,4,1,1],barre:true},
+  Gsus4:{strings:[3,3,0,0,1,3],fingers:[2,3,0,0,1,4]},
+  Asus4:{strings:[-1,0,2,2,3,0],fingers:[0,0,1,2,3,0]},
+  Bsus4:{strings:[-1,2,4,4,5,2],fingers:[0,1,2,3,4,1],barre:true},
+
+  // === DIM ===
+  Cdim:{strings:[-1,3,4,5,4,3],fingers:[0,1,2,4,3,1],barre:true},
+  'C#dim':{strings:[-1,4,5,6,5,4],fingers:[0,1,2,4,3,1],barre:true},
+  Ddim:{strings:[-1,-1,0,1,0,1],fingers:[0,0,0,1,0,2]},
+  'D#dim':{strings:[-1,-1,1,2,1,2],fingers:[0,0,1,3,2,4]},
+  Edim:{strings:[0,1,2,3,2,0],fingers:[0,1,2,4,3,0]},
+  Fdim:{strings:[-1,-1,3,4,3,1],fingers:[0,0,2,4,3,1]},
+  'F#dim':{strings:[2,3,4,2,1,2],fingers:[2,3,4,2,1,2]},
+  Gdim:{strings:[3,4,5,3,2,3],fingers:[2,3,4,1,1,1],barre:true},
+  'G#dim':{strings:[4,5,6,4,3,4],fingers:[2,3,4,1,1,1],barre:true},
+  Adim:{strings:[-1,0,1,2,1,0],fingers:[0,0,1,3,2,0]},
+  'A#dim':{strings:[-1,1,2,3,2,0],fingers:[0,1,2,4,3,0]},
+  Bdim:{strings:[-1,2,3,4,3,2],fingers:[0,1,2,4,3,1],barre:true},
+
+  // === AUG ===
+  Caug:{strings:[-1,3,2,1,1,0],fingers:[0,4,3,1,2,0]},
+  Daug:{strings:[-1,-1,0,3,3,2],fingers:[0,0,0,2,3,1]},
+  Eaug:{strings:[0,3,2,1,1,0],fingers:[0,4,3,1,2,0]},
+  Faug:{strings:[-1,-1,3,2,2,1],fingers:[0,0,4,2,3,1]},
+  Gaug:{strings:[3,2,1,0,0,3],fingers:[3,2,1,0,0,4]},
+  Aaug:{strings:[-1,0,3,2,2,1],fingers:[0,0,4,2,3,1]},
+  Baug:{strings:[-1,2,1,0,0,3],fingers:[0,2,1,0,0,3]},
+
+  // === ADD9 ===
+  Cadd9:{strings:[-1,3,2,0,3,0],fingers:[0,3,2,0,4,0]},
+  Dadd9:{strings:[-1,-1,0,2,3,0],fingers:[0,0,0,1,3,0]},
+  Eadd9:{strings:[0,2,2,1,0,2],fingers:[0,2,3,1,0,4]},
+  Gadd9:{strings:[3,0,0,0,0,3],fingers:[2,0,0,0,0,3]},
+  Aadd9:{strings:[-1,0,2,4,2,0],fingers:[0,0,1,4,2,0]},
 };
 
 const ALL_NOTES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
@@ -498,12 +591,68 @@ function drawChord(name){
     'Db7':'C#7','Eb7':'D#7','Gb7':'F#7','Ab7':'G#7','Bb7':'A#7'
   };
   var cn = enharmonic[name] || name;
-  var encoded = encodeURIComponent(cn);
-  var imgUrl = 'https://chordpic.com/chord/' + encoded + '.svg';
-  var html = '<div class="chord-diag">';
-  html += '<div class="chord-diag-name">' + name + '</div>';
-  html += '<img src="' + imgUrl + '" alt="' + cn + '" width="60" height="72" style="display:block;margin:0 auto;">';
-  html += '</div>';
+  var shape = CHORD_SHAPES[cn];
+
+  var html = '<div class="chord-diag"><div class="chord-diag-name">' + name + '</div>';
+
+  if(!shape){
+    html += '<div style="font-size:11px;color:#C8942A;padding:16px 4px;text-align:center;line-height:1.4">Xem<br>thêm</div>';
+    html += '</div>';
+    return html;
+  }
+
+  // Draw SVG
+  var W=70, H=84, ox=8, oy=18, fw=11, fh=13;
+  var strings=shape.strings, fingers=shape.fingers||[];
+  // Find min fret for position
+  var frets = strings.filter(function(s){return s>0;});
+  var minFret = frets.length ? Math.min.apply(null,frets) : 1;
+  var pos = (minFret > 1 && minFret < 5) ? minFret : 1;
+  var offset = pos > 1 ? pos - 1 : 0;
+
+  var svg = '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">';
+
+  // Nut or position marker
+  if(pos <= 1){
+    svg += '<rect x="'+ox+'" y="'+oy+'" width="'+(fw*5)+'" height="4" fill="#1A1208" rx="1"/>';
+  } else {
+    svg += '<line x1="'+ox+'" y1="'+oy+'" x2="'+(ox+fw*5)+'" y2="'+oy+'" stroke="#1A1208" stroke-width="1"/>';
+    svg += '<text x="'+(ox+fw*5+3)+'" y="'+(oy+fh*0.8)+'" font-size="8" fill="#8A7F6E">'+pos+'fr</text>';
+  }
+
+  // 6 strings (vertical lines)
+  for(var i=0;i<6;i++){
+    var x=ox+i*fw;
+    svg += '<line x1="'+x+'" y1="'+(oy+4)+'" x2="'+x+'" y2="'+(oy+4+fh*4)+'" stroke="#1A1208" stroke-width="'+(i===0?1.5:1)+'"/>';
+  }
+  // 4 frets (horizontal lines)
+  for(var f=1;f<=4;f++){
+    svg += '<line x1="'+ox+'" y1="'+(oy+4+f*fh)+'" x2="'+(ox+fw*5)+'" y2="'+(oy+4+f*fh)+'" stroke="#1A1208" stroke-width="0.7"/>';
+  }
+
+  // Open/mute/dots
+  for(var i=0;i<6;i++){
+    var x=ox+i*fw;
+    var s=strings[i];
+    if(s===-1){
+      svg += '<text x="'+x+'" y="'+(oy-3)+'" text-anchor="middle" fill="#1A1208" font-size="10" font-weight="bold">×</text>';
+    } else if(s===0){
+      svg += '<circle cx="'+x+'" cy="'+(oy-7)+'" r="4" fill="none" stroke="#1A1208" stroke-width="1.3"/>';
+    } else {
+      var adjFret = s - offset;
+      if(adjFret >= 1 && adjFret <= 4){
+        var cy = oy+4+(adjFret-0.5)*fh;
+        var fill = (i===0||i===5) ? '#C8942A' : '#1A1208';
+        svg += '<circle cx="'+x+'" cy="'+cy+'" r="6" fill="'+fill+'"/>';
+        if(fingers[i]){
+          svg += '<text x="'+x+'" y="'+(cy+3.5)+'" text-anchor="middle" fill="white" font-size="8" font-weight="bold">'+fingers[i]+'</text>';
+        }
+      }
+    }
+  }
+
+  svg += '</svg>';
+  html += svg + '</div>';
   return html;
 }
 
