@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Piano + Guitar Đệm Hát — Học 1 Kèm 1 Online</title>
+<title>Piano · Guitar · Violin · Thanh Nhạc — Học 1 Kèm 1 Online</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -111,7 +111,7 @@ canvas#spinWheel{border-radius:50%;box-shadow:0 8px 40px rgba(0,0,0,.4);display:
 .inst-card p{font-size:12px;color:var(--ink3);line-height:1.6;}
 
 /* ── ROADMAP ── */
-.tab-row{display:flex;gap:8px;margin-bottom:1.5rem;}
+.tab-row{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap;}
 .tab-btn{padding:8px 18px;border-radius:99px;border:0.5px solid var(--border2);background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:var(--ink3);font-family:'Inter',sans-serif;transition:all .12s;}
 .tab-btn.active{background:var(--brown);color:#fff;border-color:var(--brown);}
 .phases{display:none;}
@@ -213,7 +213,7 @@ footer{background:var(--brown);padding:2rem 0;}
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a class="nav-logo" href="#">Piano + Guitar Đệm Hát</a>
+    <a class="nav-logo" href="#">Piano · Guitar · Violin · Thanh Nhạc</a>
     <div class="nav-links">
       <a href="/hopam.html">🎸 Hợp âm</a>
       <a href="#spin">🎁 Ưu đãi</a>
@@ -226,14 +226,14 @@ footer{background:var(--brown);padding:2rem 0;}
 <!-- HERO -->
 <section class="hero">
   <div class="wrap">
-    <div class="hero-badge">🎹 Piano + Guitar Đệm Hát · Online 1 kèm 1</div>
-    <h1>Piano + Guitar<br><em>Đệm Hát Online</em><br>1 Kèm 1.</h1>
+    <div class="hero-badge">🎹 Piano · Guitar · Violin · Thanh Nhạc · Online 1 kèm 1</div>
+    <h1>Piano · Guitar · Violin<br><em>Thanh Nhạc Online</em><br>1 Kèm 1.</h1>
     <p>Học 1 kèm 1 trực tuyến cùng em Tâm — linh hoạt theo múi giờ của bạn, dù bạn đang ở đâu trên thế giới. Em có thể dạy bằng tiếng Anh cho các bạn nhỏ.</p>
     <div class="hero-pills">
       <span class="hero-pill">🌍 Học online qua Zoom / Meet</span>
       <span class="hero-pill">👤 1 thầy · 1 trò</span>
       <span class="hero-pill">🕐 Linh hoạt theo giờ bạn</span>
-      <span class="hero-pill">🎵 Guitar & Piano</span>
+      <span class="hero-pill">🎵 Guitar · Piano · Violin · Thanh Nhạc</span>
     </div>
     <div class="hero-btns">
       <a href="#dang-ky" class="btn-primary">Học thử 1 buổi miễn phí →</a>
@@ -271,6 +271,22 @@ footer{background:var(--brown);padding:2rem 0;}
         <div class="field">
           <label>SỐ ĐIỆN THOẠI / ZALO</label>
           <input type="tel" id="sw-phone" placeholder="09xx xxx xxx">
+        </div>
+        <div class="field">
+          <label>QUỐC GIA ĐANG SINH SỐNG</label>
+          <select id="sw-country" style="width:100%;padding:10px 12px;border-radius:8px;border:0.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:13px;font-family:'Inter',sans-serif;outline:none;">
+            <option value="" style="background:#3D1C10">-- Chọn quốc gia --</option>
+            <option value="vn" style="background:#3D1C10">🇻🇳 Việt Nam</option>
+            <option value="us" style="background:#3D1C10">🇺🇸 Mỹ (USA)</option>
+            <option value="ca" style="background:#3D1C10">🇨🇦 Canada</option>
+            <option value="au" style="background:#3D1C10">🇦🇺 Úc (Australia)</option>
+            <option value="sg" style="background:#3D1C10">🇸🇬 Singapore</option>
+            <option value="de" style="background:#3D1C10">🇩🇪 Đức (Germany)</option>
+            <option value="uk" style="background:#3D1C10">🇬🇧 Anh (UK)</option>
+            <option value="jp" style="background:#3D1C10">🇯🇵 Nhật (Japan)</option>
+            <option value="kr" style="background:#3D1C10">🇰🇷 Hàn Quốc (Korea)</option>
+            <option value="other" style="background:#3D1C10">🌏 Quốc gia khác</option>
+          </select>
         </div>
         <button class="spin-submit" onclick="activateSpin()">Kích hoạt vòng quay 🎡</button>
         <div class="spin-note">Thông tin chỉ dùng để em Tâm liên hệ tư vấn · Không spam</div>
@@ -331,9 +347,9 @@ footer{background:var(--brown);padding:2rem 0;}
 <section>
   <div class="wrap">
     <div class="section-label">Môn học</div>
-    <h2 class="section-title">Guitar & Piano<br>đều học online 1 kèm 1.</h2>
-    <div class="section-sub">Bạn có thể học một môn hoặc cả hai</div>
-    <div class="inst-grid">
+    <h2 class="section-title">4 môn nhạc —<br>đều học online 1 kèm 1.</h2>
+    <div class="section-sub">Bạn có thể học một môn hoặc kết hợp nhiều môn</div>
+    <div class="inst-grid" style="grid-template-columns:repeat(2,1fr)">
       <div class="inst-card">
         <div class="inst-icon">🎸</div>
         <h3>Guitar</h3>
@@ -343,6 +359,16 @@ footer{background:var(--brown);padding:2rem 0;}
         <div class="inst-icon">🎹</div>
         <h3>Piano</h3>
         <p>Kỹ thuật tay, hòa âm, đệm hát bài yêu thích. Học 2 tay phối hợp, đọc nốt và biểu diễn bài hoàn chỉnh.</p>
+      </div>
+      <div class="inst-card">
+        <div class="inst-icon">🎻</div>
+        <h3>Violin</h3>
+        <p>Kỹ thuật cầm vĩ, tư thế đúng, đọc nốt, giai điệu cơ bản đến nâng cao. Phù hợp mọi lứa tuổi từ 5 tuổi trở lên.</p>
+      </div>
+      <div class="inst-card">
+        <div class="inst-icon">🎤</div>
+        <h3>Thanh Nhạc</h3>
+        <p>Luyện hơi, kỹ thuật thanh nhạc, mở rộng âm vực, hát đúng nhạc lý. Phù hợp người mới bắt đầu đến trung cấp.</p>
       </div>
     </div>
   </div>
@@ -384,6 +410,8 @@ footer{background:var(--brown);padding:2rem 0;}
     <div class="tab-row pkg-tabs">
       <button class="tab-btn active" onclick="switchPkg('guitar',this)">🎸 Guitar</button>
       <button class="tab-btn" onclick="switchPkg('piano',this)">🎹 Piano</button>
+      <button class="tab-btn" onclick="switchPkg('violin',this)">🎻 Violin</button>
+      <button class="tab-btn" onclick="switchPkg('vocal',this)">🎤 Thanh Nhạc</button>
     </div>
 
     <!-- Guitar packages -->
@@ -499,6 +527,116 @@ footer{background:var(--brown);padding:2rem 0;}
     </div>
 
     <p class="pkg-note">✦ Học thử 1 buổi miễn phí trước khi đăng ký gói · Không ràng buộc</p>
+    <div id="pkg-violin" style="display:none">
+      <div class="pkg-grid">
+        <div class="pkg-card">
+          <div class="pkg-sessions">20</div>
+          <div class="pkg-lbl">buổi · Gói Khởi Đầu</div>
+          <div class="pkg-price">8.000.000 ₫</div>
+          <div class="pkg-price-usd">hoặc $325 USD · ~400.000 ₫/buổi</div>
+          <ul class="pkg-features">
+            <li>Học 1 kèm 1 online qua Zoom/Meet</li>
+            <li>Tư thế cầm đàn & cầm vĩ đúng</li>
+            <li>Kỹ thuật kéo vĩ cơ bản</li>
+            <li>Đọc nốt nhạc trên khuông</li>
+            <li>3–5 giai điệu hoàn chỉnh</li>
+            <li>Hỗ trợ qua tin nhắn</li>
+            <li>Chứng nhận hoàn thành</li>
+          </ul>
+          <a href="#dang-ky" class="pkg-cta pkg-cta-outline">Đăng ký · Violin 20 buổi</a>
+        </div>
+        <div class="pkg-card featured">
+          <div class="pkg-badge">Phổ biến nhất</div>
+          <div class="pkg-sessions">50</div>
+          <div class="pkg-lbl">buổi · Gói Nâng Cao</div>
+          <div class="pkg-price">16.000.000 ₫</div>
+          <div class="pkg-price-usd">hoặc $650 USD · ~320.000 ₫/buổi</div>
+          <ul class="pkg-features">
+            <li>Học 1 kèm 1 online qua Zoom/Meet</li>
+            <li>Toàn bộ nội dung gói 20 buổi</li>
+            <li>Kỹ thuật vibrato & shifting</li>
+            <li>Đọc nốt nâng cao, nhạc lý cơ bản</li>
+            <li>10+ bài nhạc đa thể loại</li>
+            <li>Ưu tiên đặt lịch & hỗ trợ 24/7</li>
+            <li>Video ghi lại từng buổi học</li>
+          </ul>
+          <a href="#dang-ky" class="pkg-cta pkg-cta-fill">Đăng ký · Violin 50 buổi</a>
+        </div>
+        <div class="pkg-card">
+          <div class="pkg-badge" style="background:var(--gold)">Tiết kiệm nhất</div>
+          <div class="pkg-sessions">100</div>
+          <div class="pkg-lbl">buổi · Gói Toàn Diện</div>
+          <div class="pkg-price">30.000.000 ₫</div>
+          <div class="pkg-price-usd">~300.000 ₫/buổi · Tiết kiệm ~25%</div>
+          <ul class="pkg-features">
+            <li>Toàn bộ nội dung gói 50 buổi</li>
+            <li>Kỹ thuật nâng cao: double stop, spiccato</li>
+            <li>Nhạc lý & phân tích tác phẩm</li>
+            <li>20+ bài nhạc cổ điển & đương đại</li>
+            <li>Chuẩn bị thi năng khiếu / biểu diễn</li>
+            <li>Video ghi lại từng buổi học</li>
+            <li>Mini concert tốt nghiệp</li>
+          </ul>
+          <a href="#dang-ky" class="pkg-cta pkg-cta-outline">Đăng ký · Violin 100 buổi</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vocal / Thanh nhạc packages -->
+    <div id="pkg-vocal" style="display:none">
+      <div class="pkg-grid">
+        <div class="pkg-card">
+          <div class="pkg-sessions">20</div>
+          <div class="pkg-lbl">buổi · Gói Khởi Đầu</div>
+          <div class="pkg-price">8.000.000 ₫</div>
+          <div class="pkg-price-usd">hoặc $325 USD · ~400.000 ₫/buổi</div>
+          <ul class="pkg-features">
+            <li>Học 1 kèm 1 online qua Zoom/Meet</li>
+            <li>Luyện hơi & kiểm soát hơi thở</li>
+            <li>Kỹ thuật phát âm chuẩn</li>
+            <li>Mở rộng âm vực cơ bản</li>
+            <li>3–5 bài hát hoàn chỉnh</li>
+            <li>Hỗ trợ qua tin nhắn</li>
+            <li>Chứng nhận hoàn thành</li>
+          </ul>
+          <a href="#dang-ky" class="pkg-cta pkg-cta-outline">Đăng ký · Thanh Nhạc 20 buổi</a>
+        </div>
+        <div class="pkg-card featured">
+          <div class="pkg-badge">Phổ biến nhất</div>
+          <div class="pkg-sessions">50</div>
+          <div class="pkg-lbl">buổi · Gói Nâng Cao</div>
+          <div class="pkg-price">16.000.000 ₫</div>
+          <div class="pkg-price-usd">hoặc $650 USD · ~320.000 ₫/buổi</div>
+          <ul class="pkg-features">
+            <li>Học 1 kèm 1 online qua Zoom/Meet</li>
+            <li>Toàn bộ nội dung gói 20 buổi</li>
+            <li>Kỹ thuật rung, luyến, láy</li>
+            <li>Nhạc lý & tai nghe âm nhạc</li>
+            <li>10+ bài hát đa thể loại</li>
+            <li>Ưu tiên đặt lịch & hỗ trợ 24/7</li>
+            <li>Video ghi lại từng buổi học</li>
+          </ul>
+          <a href="#dang-ky" class="pkg-cta pkg-cta-fill">Đăng ký · Thanh Nhạc 50 buổi</a>
+        </div>
+        <div class="pkg-card">
+          <div class="pkg-badge" style="background:var(--gold)">Tiết kiệm nhất</div>
+          <div class="pkg-sessions">100</div>
+          <div class="pkg-lbl">buổi · Gói Toàn Diện</div>
+          <div class="pkg-price">30.000.000 ₫</div>
+          <div class="pkg-price-usd">~300.000 ₫/buổi · Tiết kiệm ~25%</div>
+          <ul class="pkg-features">
+            <li>Toàn bộ nội dung gói 50 buổi</li>
+            <li>Kỹ thuật nâng cao: belting, mix voice</li>
+            <li>Phong cách hát: pop, ballad, jazz, R&B</li>
+            <li>20+ bài hát đa thể loại</li>
+            <li>Chuẩn bị thi năng khiếu / biểu diễn</li>
+            <li>Video ghi lại từng buổi học</li>
+            <li>Mini concert tốt nghiệp</li>
+          </ul>
+          <a href="#dang-ky" class="pkg-cta pkg-cta-outline">Đăng ký · Thanh Nhạc 100 buổi</a>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 <div class="divider"></div>
@@ -538,10 +676,12 @@ footer{background:var(--brown);padding:2rem 0;}
       <h2 class="section-title" style="text-align:center">Học thử 1 buổi<br>miễn phí.</h2>
       <p style="text-align:center;font-size:13px;color:var(--ink3)">Điền thông tin bên dưới — em Tâm sẽ liên hệ trong vòng 24 giờ để sắp xếp lịch học thử phù hợp với múi giờ của bạn.</p>
       <div class="form-box">
-        <div class="inst-choice">
+        <div class="inst-choice" style="flex-wrap:wrap">
           <label><input type="radio" name="inst" value="guitar" checked><span>🎸 Guitar</span></label>
           <label><input type="radio" name="inst" value="piano"><span>🎹 Piano</span></label>
-          <label><input type="radio" name="inst" value="both"><span>🎵 Cả hai</span></label>
+          <label><input type="radio" name="inst" value="violin"><span>🎻 Violin</span></label>
+          <label><input type="radio" name="inst" value="vocal"><span>🎤 Thanh Nhạc</span></label>
+          <label><input type="radio" name="inst" value="both"><span>🎵 Nhiều môn</span></label>
         </div>
         <div class="form-field"><label>HỌ VÀ TÊN</label><input type="text" id="f-name" placeholder="Họ và tên"></div>
         <div class="form-field"><label>EMAIL</label><input type="email" id="f-email" placeholder="email@gmail.com"></div>
@@ -566,12 +706,6 @@ footer{background:var(--brown);padding:2rem 0;}
           <div style="font-size:13px;color:var(--ink2)">Em Tâm sẽ liên hệ bạn trong vòng 24 giờ để sắp xếp buổi học thử 🎵</div>
         </div>
       </div>
-      <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:1.25rem;">
-        <a href="https://zalo.me/0965817021" style="font-size:13px;color:var(--brown);text-decoration:none;">💬 Nhắn Zalo</a>
-        <a href="https://wa.me/84965817021" style="font-size:13px;color:var(--brown);text-decoration:none;">📱 WhatsApp</a>
-        <a href="https://fb.com/truongnthanhtam" style="font-size:13px;color:var(--brown);text-decoration:none;">📘 Facebook</a>
-        <a href="tel:0965817021" style="font-size:13px;color:var(--brown);text-decoration:none;">📞 Gọi điện</a>
-      </div>
     </div>
   </div>
 </section>
@@ -580,7 +714,7 @@ footer{background:var(--brown);padding:2rem 0;}
 <footer>
   <div class="wrap">
     <div class="footer-inner">
-      <div class="footer-logo">Piano + Guitar Đệm Hát</div>
+      <div class="footer-logo">Piano · Guitar · Violin · Thanh Nhạc</div>
       <div class="footer-links">
         <a href="https://zalo.me/0965817021">💬 Zalo: 0965817021</a>
         <a href="https://fb.com/truongnthanhtam">📘 Facebook</a>
@@ -612,8 +746,10 @@ function switchTab(id, btn) {
   btn.classList.add('active');
 }
 function switchPkg(id, btn) {
-  document.getElementById('pkg-guitar').style.display = id === 'guitar' ? '' : 'none';
-  document.getElementById('pkg-piano').style.display = id === 'piano' ? '' : 'none';
+  ['guitar','piano','violin','vocal'].forEach(k => {
+    const el = document.getElementById('pkg-' + k);
+    if (el) el.style.display = k === id ? '' : 'none';
+  });
   btn.closest('.tab-row').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
@@ -691,13 +827,17 @@ function activateSpin() {
   const n = document.getElementById('sw-name').value.trim();
   const e = document.getElementById('sw-email').value.trim();
   const p = document.getElementById('sw-phone').value.trim();
+  const c = document.getElementById('sw-country').value;
   if (!n) { alert('Vui lòng nhập họ và tên học viên.'); return; }
   if (!e || !e.includes('@')) { alert('Vui lòng nhập email hợp lệ.'); return; }
   if (!p || p.length < 9) { alert('Vui lòng nhập số điện thoại / Zalo hợp lệ.'); return; }
+  if (!c) { alert('Vui lòng chọn quốc gia đang sinh sống.'); return; }
+  const countryLabel = document.getElementById('sw-country').options[document.getElementById('sw-country').selectedIndex].text;
   document.getElementById('spinFormBox').innerHTML = `
     <div style="text-align:center;padding:1.5rem 0;">
       <div style="font-size:40px;margin-bottom:.75rem">🎉</div>
       <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:#fff;margin-bottom:.4rem">Xin chào, ${n}!</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:.6rem">📍 ${countryLabel}</div>
       <div style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:1rem">Thông tin đã được ghi nhận.<br>Bấm <strong style="color:#FFD700">Quay ngay!</strong> để nhận ưu đãi 🎡</div>
       <div style="font-size:11px;color:rgba(255,255,255,.4);">Em Tâm sẽ liên hệ ${p} sớm nhé!</div>
     </div>`;
