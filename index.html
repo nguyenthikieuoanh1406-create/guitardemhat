@@ -295,7 +295,7 @@ footer{background:var(--brown);padding:2rem 0;}
       <!-- WHEEL -->
       <div class="wheel-box">
         <div class="wheel-wrap">
-          <div class="wheel-pointer">▼</div>
+          <div class="wheel-pointer" style="position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:10;font-size:28px;line-height:1;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5));">▼</div>
           <canvas id="spinWheel" width="260" height="260"></canvas>
         </div>
         <button class="spin-btn" id="spinBtn" onclick="doSpin()">🎡 Quay ngay!</button>
@@ -698,7 +698,7 @@ footer{background:var(--brown);padding:2rem 0;}
             <option>Quốc gia khác</option>
           </select>
         </div>
-        <button class="form-submit" onclick="submitForm()">Đăng ký học thử miễn phí →</button>
+        <button class="form-submit" id="formSubmitBtn" onclick="submitMainForm()">Đăng ký học thử miễn phí →</button>
         <div class="form-disclaimer">✦ Hoàn toàn miễn phí · Không ràng buộc · Học 1 kèm 1 online</div>
         <div class="form-success" id="formSuccess">
           <div style="font-size:36px;margin-bottom:.5rem">✅</div>
@@ -733,7 +733,7 @@ footer{background:var(--brown);padding:2rem 0;}
     <div class="modal-title" id="modalTitle"></div>
     <div class="modal-desc" id="modalDesc"></div>
     <div class="modal-code" id="modalCode"></div>
-    <a href="#dang-ky" class="modal-cta" onclick="closeModal()">Đăng ký học thử & dùng ưu đãi →</a>
+    <a href="https://fb.com/truongnthanhtam" target="_blank" class="modal-cta" onclick="closeModal()">Nhắn Facebook để em Tâm sắp lớp →</a>
   </div>
 </div>
 
@@ -822,6 +822,35 @@ let currentRot = 0;
 drawWheel(currentRot);
 
 let spinDone = false;
+const FORMSPREE = 'https://formspree.io/f/xqevqozw';
+
+// ── MAIN FORM (học thử) ──
+async function submitMainForm() {
+  const name    = document.getElementById('f-name').value.trim();
+  const email   = document.getElementById('f-email').value.trim();
+  const phone   = document.getElementById('f-phone').value.trim();
+  const country = document.getElementById('f-country').value;
+  const inst    = document.querySelector('input[name="inst"]:checked')?.value || '';
+  if (!name)  { alert('Vui lòng nhập họ và tên.'); return; }
+  if (!email || !email.includes('@')) { alert('Vui lòng nhập email hợp lệ.'); return; }
+  if (!phone) { alert('Vui lòng nhập số điện thoại / Zalo.'); return; }
+
+  const btn = document.getElementById('formSubmitBtn');
+  btn.textContent = 'Đang gửi...'; btn.disabled = true;
+
+  try {
+    await fetch(FORMSPREE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ name, email, phone, country, instrument: inst, _subject: `[Học thử] ${name} — ${inst}` })
+    });
+    document.getElementById('formSuccess').classList.add('show');
+    btn.style.display = 'none';
+  } catch(e) {
+    btn.textContent = 'Đăng ký học thử miễn phí →'; btn.disabled = false;
+    alert('Có lỗi xảy ra. Vui lòng thử lại hoặc nhắn Zalo 0965817021.');
+  }
+}
 
 function activateSpin() {
   const n = document.getElementById('sw-name').value.trim();
@@ -832,6 +861,14 @@ function activateSpin() {
   if (!e || !e.includes('@')) { alert('Vui lòng nhập email hợp lệ.'); return; }
   if (!p || p.length < 9) { alert('Vui lòng nhập số điện thoại / Zalo hợp lệ.'); return; }
   if (!c) { alert('Vui lòng chọn quốc gia đang sinh sống.'); return; }
+
+  // Gửi Formspree ngầm
+  fetch(FORMSPREE, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ name: n, email: e, phone: p, country: c, _subject: `[Vòng quay] ${n} — ${c}` })
+  }).catch(() => {});
+
   const countryLabel = document.getElementById('sw-country').options[document.getElementById('sw-country').selectedIndex].text;
   document.getElementById('spinFormBox').innerHTML = `
     <div style="text-align:center;padding:1.5rem 0;">
@@ -850,23 +887,36 @@ function doSpin() {
   document.getElementById('spinBtn').disabled = true;
   document.getElementById('spinBtn').textContent = 'Đang quay...';
 
+  // Kim ở đỉnh (góc -π/2). Prize thắng sẽ dừng ngay dưới kim.
+  // Mỗi ô có góc ARC. Ô i bắt đầu tại currentRot + i*ARC.
+  // Tâm ô i = currentRot + i*ARC + ARC/2
+  // Để tâm ô dừng ở đỉnh (angle = -π/2 = 3π/2): cần xoay thêm sao cho tâm ô = -π/2 (mod 2π)
   const prizeIdx = Math.floor(Math.random() * N);
-  const targetAngle = (2 * Math.PI * 5) + (2 * Math.PI - prizeIdx * ARC - ARC / 2) - currentRot;
-  const totalRot = targetAngle;
-  const duration = 4000;
+  // Góc tâm ô prize tính từ 0 (không có rotation)
+  const prizeMidAngle = prizeIdx * ARC + ARC / 2;
+  // Cần xoay thêm để prizeMidAngle + currentRot + extraRot ≡ -π/2 (mod 2π)
+  // => extraRot = -π/2 - prizeMidAngle - currentRot + k*2π (chọn k sao cho extraRot > 0)
+  const pointerAngle = -Math.PI / 2;
+  let extraRot = pointerAngle - prizeMidAngle - currentRot;
+  // Thêm ít nhất 5 vòng
+  extraRot = extraRot - Math.floor(extraRot / (2 * Math.PI)) * (2 * Math.PI) + 2 * Math.PI * 5;
+
+  const duration = 4500;
   const startTime = performance.now();
   const startRot = currentRot;
+  const targetRot = startRot + extraRot;
 
   function easeOut(t) { return 1 - Math.pow(1 - t, 4); }
 
   function animate(now) {
     const elapsed = now - startTime;
     const t = Math.min(elapsed / duration, 1);
-    currentRot = startRot + totalRot * easeOut(t);
+    currentRot = startRot + extraRot * easeOut(t);
     drawWheel(currentRot);
     if (t < 1) {
       requestAnimationFrame(animate);
     } else {
+      currentRot = targetRot;
       showPrize(PRIZES[prizeIdx]);
     }
   }
