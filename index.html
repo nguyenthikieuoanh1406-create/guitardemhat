@@ -869,6 +869,9 @@ function activateSpin() {
     body: JSON.stringify({ name: n, email: e, phone: p, country: c, _subject: `[Vòng quay] ${n} — ${c}` })
   }).catch(() => {});
 
+  // Lưu lại để dùng khi gửi prize
+  window._spinName = n; window._spinEmail = e; window._spinPhone = p; window._spinCountry = c;
+
   const countryLabel = document.getElementById('sw-country').options[document.getElementById('sw-country').selectedIndex].text;
   document.getElementById('spinFormBox').innerHTML = `
     <div style="text-align:center;padding:1.5rem 0;">
@@ -931,11 +934,27 @@ function showPrize(prize) {
   document.getElementById('prizeDesc').textContent = prize.desc;
   document.getElementById('prizeCode').textContent = '🎟 ' + prize.code;
   res.classList.add('show');
-  // Also show modal
+
+  // Gửi lại Formspree kèm phần thưởng trúng
+  const n = window._spinName || '';
+  const e = window._spinEmail || '';
+  const p = window._spinPhone || '';
+  const c = window._spinCountry || '';
+  fetch(FORMSPREE, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      name: n, email: e, phone: p, country: c,
+      prize: prize.name,
+      prize_code: prize.code,
+      _subject: `🎡 [Vòng quay] ${n} trúng: ${prize.name} (${prize.code})`
+    })
+  }).catch(() => {});
+
   setTimeout(() => {
     document.getElementById('modalIcon').textContent = prize.icon;
     document.getElementById('modalTitle').textContent = prize.name;
-    document.getElementById('modalDesc').textContent = prize.desc + '\n\nDùng mã bên dưới khi nhắn Zalo đăng ký nhé!';
+    document.getElementById('modalDesc').textContent = prize.desc + '\n\nDùng mã bên dưới khi nhắn Facebook đăng ký nhé!';
     document.getElementById('modalCode').textContent = prize.code;
     document.getElementById('prizeModal').classList.add('show');
   }, 600);
